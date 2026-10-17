@@ -1,0 +1,3 @@
+Original fictional character artwork for this research simulation.
+Visual direction: cinematic anime/webtoon illustration, muted navy/charcoal/cream, warm amber light, subtle grain.
+Use assets/profile/01.jpg–09.jpg for Xiaomei social-feed imagery; avatars are in assets/avatars/.

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>問卷後台管理</title>
+<script src="config.js"></script>
+<style>
+  :root {
+    --bg: #0f1115; --panel: #181b22; --line: #2a2f3a; --text: #e8eaf0; --muted: #9aa3b2;
+    --accent: #0095f6; --danger: #ff4d5e; --ok: #2ecc71;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif; }
+  body { background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; }
+  .hidden { display: none !important; }
+
+  /* 登入 */
+  #login { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .login-card { width: 100%; max-width: 360px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 28px; }
+  .login-card h1 { font-size: 1.15rem; margin-bottom: 6px; }
+  .login-card p { color: var(--muted); font-size: 0.85rem; margin-bottom: 18px; }
+
+  input[type=password], input[type=text], select {
+    width: 100%; padding: 9px 11px; background: #11141a; color: var(--text);
+    border: 1px solid var(--line); border-radius: 8px; font-size: 0.9rem;
+  }
+  input:focus, select:focus { outline: none; border-color: var(--accent); }
+  button {
+    padding: 9px 14px; border-radius: 8px; border: 1px solid var(--line); background: #222733;
+    color: var(--text); cursor: pointer; font-size: 0.88rem; white-space: nowrap;
+  }
+  button:hover:not(:disabled) { border-color: var(--accent); }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+  .login-card button { width: 100%; margin-top: 12px; }
+  .msg-error { color: var(--danger); font-size: 0.85rem; margin-top: 10px; }
+
+  /* 主畫面 */
+  header { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--line); background: var(--panel); position: sticky; top: 0; z-index: 10; }
+  header h1 { font-size: 1.05rem; }
+  .header-actions { display: flex; gap: 8px; align-items: center; }
+  #updated-at { color: var(--muted); font-size: 0.78rem; }
+  main { padding: 20px; max-width: 1600px; margin: 0 auto; }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-bottom: 18px; }
+  .stat { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+  .stat .label { color: var(--muted); font-size: 0.78rem; }
+  .stat .value { font-size: 1.5rem; font-weight: 700; margin-top: 2px; }
+  .stat .sub { color: var(--muted); font-size: 0.76rem; margin-top: 2px; }
+
+  .toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; align-items: center; }
+  .toolbar .grow { flex: 1 1 220px; min-width: 180px; }
+  .toolbar select { width: auto; min-width: 120px; }
+  .toolbar .spacer { flex: 1; }
+
+  .col-toggles { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 12px; color: var(--muted); font-size: 0.82rem; }
+  .col-toggles label { cursor: pointer; display: flex; align-items: center; gap: 5px; }
+
+  .table-wrap { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: auto; max-height: 68vh; }
+  table { border-collapse: collapse; width: max-content; min-width: 100%; }
+  th, td { padding: 8px 12px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; font-size: 0.82rem; }
+  th { position: sticky; top: 0; background: #1f2430; cursor: pointer; user-select: none; z-index: 2; font-weight: 600; }
+  th:hover { color: var(--accent); }
+  th .arrow { color: var(--accent); margin-left: 4px; }
+  tbody tr:hover td { background: #1c212b; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .empty { padding: 40px; text-align: center; color: var(--muted); }
+
+  .pager { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; color: var(--muted); font-size: 0.85rem; flex-wrap: wrap; gap: 8px; }
+  .pager .btns { display: flex; gap: 6px; align-items: center; }
+</style>
+</head>
+<body>
+
+<!-- 登入 -->
+<div id="login">
+  <form class="login-card" id="login-form">
+    <h1>🔒 問卷後台</h1>
+    <p>請輸入管理密碼（即 Apps Script 指令碼屬性中的 ADMIN_TOKEN）。</p>
+    <input type="password" id="token-input" placeholder="管理密碼" autocomplete="current-password" required>
+    <button type="submit" class="primary" id="login-btn">登入</button>
+    <div class="msg-error hidden" id="login-error"></div>
+  </form>
+</div>
+
+<!-- 主畫面 -->
+<div id="app" class="hidden">
+  <header>
+    <h1>📊 問卷後台管理</h1>
+    <div class="header-actions">
+      <span id="updated-at"></span>
+      <button id="btn-refresh">🔄 重新整理</button>
+      <button id="btn-logout">登出</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="stats" id="stats"></section>
+
+    <div class="toolbar">
+      <input type="text" id="search" class="grow" placeholder="搜尋任何欄位…">
+      <select id="f-gender"><option value="">性別：全部</option></select>
+      <select id="f-school"><option value="">學校類型：全部</option></select>
+      <select id="f-grade"><option value="">年級：全部</option></select>
+      <select id="f-exp"><option value="">曾遭遇：全部</option></select>
+      <span class="spacer"></span>
+      <button id="btn-csv" class="primary">⬇ 匯出 CSV</button>
+      <button id="btn-json">⬇ 匯出 JSON</button>
+    </div>
+
+    <div class="col-toggles" id="col-toggles"></div>
+
+    <div class="table-wrap">
+      <table>
+        <thead id="thead"></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div class="empty hidden" id="empty">沒有符合條件的資料</div>
+    </div>
+
+    <div class="pager">
+      <span id="count-info"></span>
+      <div class="btns">
+        <select id="page-size" style="width:auto">
+          <option value="25">每頁 25 筆</option>
+          <option value="50" selected>每頁 50 筆</option>
+          <option value="100">每頁 100 筆</option>
+          <option value="500">每頁 500 筆</option>
+        </select>
+        <button id="prev">‹ 上一頁</button>
+        <span id="page-info"></span>
+        <button id="next">下一頁 ›</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+(function () {
+  const TOKEN_KEY = 'survey_admin_token';
+
+  // 欄位中文標題與分組
+  const LABELS = {
+    timestamp: '提交時間', submission_id: '提交編號', duration_sec: '作答秒數', consent: '同意',
+    gender: '性別', school_type: '學校類型', school_other: '學校（其他）', grade: '年級', experience: '曾遭遇',
+    mood_count: '情緒數', mood_x_avg: '情緒X均值', mood_y_avg: '情緒Y均值'
+  };
+  const GROUPS = [
+    { key: 'base',      label: '基本資料', test: h => !/^(mood_|resp_|eff_|bystander_)/.test(h) || h === 'mood_count' },
+    { key: 'mood',      label: '情緒選擇', test: h => /^mood_/.test(h) && h !== 'mood_count' },
+    { key: 'resp',      label: '責任感',   test: h => /^resp_/.test(h) },
+    { key: 'eff',       label: '挺身效能', test: h => /^eff_/.test(h) },
+    { key: 'bystander', label: '旁觀者行為', test: h => /^bystander_/.test(h) }
+  ];
+  const groupOf = h => (GROUPS.find(g => g.test(h)) || GROUPS[0]).key;
+  const labelOf = h => LABELS[h] || h.replace(/^resp_/, '責任').replace(/^eff_/, '效能').replace(/^bystander_/, '旁觀').replace(/^mood_/, '情緒');
+  const isNumericCol = h => /^(duration_sec|mood_count|mood_x_avg|mood_y_avg|resp_|eff_|bystander_)/.test(h);
+
+  let headers = [], rows = [], view = [];
+  let sortCol = null, sortDir = 1, page = 1, pageSize = 50;
+  const visibleGroups = { base: true, mood: true, resp: true, eff: true, bystander: true };
+
+  const $ = id => document.getElementById(id);
+
+  /* ---------- 登入 / 資料載入 ---------- */
+
+  async function fetchList(token) {
+    const url = (window.SURVEY_CONFIG || {}).APPS_SCRIPT_URL || '';
+    if (!url || url.indexOf('PASTE_YOUR') !== -1) throw new Error('尚未在 config.js 設定 Apps Script 網址');
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action: 'list', token: token })
+    });
+    const json = await res.json();
+    if (!json.ok) throw new Error(json.error === 'unauthorized' ? '密碼錯誤' : (json.error || '讀取失敗'));
+    return json;
+  }
+
+  async function load(token, silent) {
+    const btn = $('btn-refresh');
+    btn.disabled = true; btn.textContent = '⏳ 載入中…';
+    try {
+      const data = await fetchList(token);
+      headers = data.headers;
+      rows = data.rows;
+      sessionStorage.setItem(TOKEN_KEY, token);
+      $('login').classList.add('hidden');
+      $('app').classList.remove('hidden');
+      $('updated-at').textContent = '更新於 ' + new Date().toLocaleTimeString('zh-TW', { hour12: false });
+      buildFilters();
+      buildColToggles();
+      renderStats();
+      apply();
+    } catch (err) {
+      if (silent) { logout(); return; }
+      throw err;
+    } finally {
+      btn.disabled = false; btn.textContent = '🔄 重新整理';
+    }
+  }
+
+  function logout() {
+    sessionStorage.removeItem(TOKEN_KEY);
+    $('app').classList.add('hidden');
+    $('login').classList.remove('hidden');
+    $('token-input').value = '';
+  }
+
+  $('login-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = $('login-btn'), err = $('login-error');
+    err.classList.add('hidden');
+    btn.disabled = true; btn.textContent = '驗證中…';
+    try {
+      await load($('token-input').value.trim(), false);
+    } catch (ex) {
+      err.textContent = ex.message; err.classList.remove('hidden');
+    } finally {
+      btn.disabled = false; btn.textContent = '登入';
+    }
+  });
+
+  $('btn-refresh').onclick = () => load(sessionStorage.getItem(TOKEN_KEY), false).catch(e => alert(e.message));
+  $('btn-logout').onclick = logout;
+
+  /* ---------- 篩選與排序 ---------- */
+
+  const idx = name => headers.indexOf(name);
+
+  function fillSelect(id, col, placeholder) {
+    const sel = $(id), i = idx(col), prev = sel.value;
+    const values = [...new Set(rows.map(r => r[i]).filter(Boolean))].sort();
+    sel.innerHTML = '';
+    sel.add(new Option(placeholder, ''));
+    values.forEach(v => sel.add(new Option(v, v)));
+    sel.value = values.includes(prev) ? prev : '';
+  }
+
+  function buildFilters() {
+    fillSelect('f-gender', 'gender', '性別：全部');
+    fillSelect('f-school', 'school_type', '學校類型：全部');
+    fillSelect('f-grade', 'grade', '年級：全部');
+    fillSelect('f-exp', 'experience', '曾遭遇：全部');
+  }
+
+  function buildColToggles() {
+    const box = $('col-toggles');
+    box.innerHTML = '<span>顯示欄位：</span>';
+    GROUPS.forEach(g => {
+      const label = document.createElement('label');
+      const cb = document.createElement('input');
+      cb.type = 'checkbox'; cb.checked = visibleGroups[g.key];
+      cb.onchange = () => { visibleGroups[g.key] = cb.checked; render(); };
+      label.append(cb, g.label);
+      box.append(label);
+    });
+  }
+
+  function apply() {
+    const q = $('search').value.trim().toLowerCase();
+    const f = [['gender', $('f-gender').value], ['school_type', $('f-school').value],
+               ['grade', $('f-grade').value], ['experience', $('f-exp').value]]
+              .filter(x => x[1]).map(x => [idx(x[0]), x[1]]);
+
+    view = rows.filter(r =>
+      f.every(([i, v]) => r[i] === v) &&
+      (!q || r.some(c => String(c).toLowerCase().includes(q)))
+    );
+
+    if (sortCol !== null) {
+      const i = idx(sortCol), numeric = isNumericCol(sortCol);
+      view.sort((a, b) => {
+        let x = a[i], y = b[i];
+        if (numeric) { x = parseFloat(x); y = parseFloat(y); if (isNaN(x)) x = -Infinity; if (isNaN(y)) y = -Infinity; return (x - y) * sortDir; }
+        return String(x).localeCompare(String(y), 'zh-TW') * sortDir;
+      });
+    } else {
+      view.reverse(); // 預設：最新在最上面
+    }
+    page = 1;
+    render();
+  }
+
+  ['search', 'f-gender', 'f-school', 'f-grade', 'f-exp'].forEach(id => $(id).addEventListener('input', apply));
+  $('page-size').onchange = e => { pageSize = +e.target.value; page = 1; render(); };
+  $('prev').onclick = () => { if (page > 1) { page--; render(); } };
+  $('next').onclick = () => { if (page < Math.ceil(view.length / pageSize)) { page++; render(); } };
+
+  /* ---------- 表格 ---------- */
+
+  function render() {
+    const cols = headers.map((h, i) => ({ h, i })).filter(c => visibleGroups[groupOf(c.h)]);
+
+    const tr = document.createElement('tr');
+    cols.forEach(c => {
+      const th = document.createElement('th');
+      th.textContent = labelOf(c.h);
+      th.title = c.h;
+      if (sortCol === c.h) {
+        const a = document.createElement('span');
+        a.className = 'arrow'; a.textContent = sortDir === 1 ? '▲' : '▼';
+        th.append(a);
+      }
+      th.onclick = () => {
+        if (sortCol === c.h) { sortDir = -sortDir; } else { sortCol = c.h; sortDir = 1; }
+        apply();
+      };
+      tr.append(th);
+    });
+    $('thead').replaceChildren(tr);
+
+    const start = (page - 1) * pageSize;
+    const frag = document.createDocumentFragment();
+    view.slice(start, start + pageSize).forEach(r => {
+      const row = document.createElement('tr');
+      cols.forEach(c => {
+        const td = document.createElement('td');
+        td.textContent = r[c.i];            // textContent：資料不會被當成 HTML 執行
+        if (isNumericCol(c.h)) td.className = 'num';
+        row.append(td);
+      });
+      frag.append(row);
+    });
+    $('tbody').replaceChildren(frag);
+
+    const pages = Math.max(1, Math.ceil(view.length / pageSize));
+    $('empty').classList.toggle('hidden', view.length > 0);
+    $('count-info').textContent = `共 ${rows.length} 筆，目前顯示 ${view.length} 筆`;
+    $('page-info').textContent = `${page} / ${pages}`;
+    $('prev').disabled = page <= 1;
+    $('next').disabled = page >= pages;
+  }
+
+  /* ---------- 統計卡片 ---------- */
+
+  function median(arr) {
+    if (!arr.length) return null;
+    const s = [...arr].sort((a, b) => a - b), m = Math.floor(s.length / 2);
+    return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
+  }
+
+  function countBy(col) {
+    const i = idx(col), map = {};
+    rows.forEach(r => { if (r[i]) map[r[i]] = (map[r[i]] || 0) + 1; });
+    return Object.entries(map).map(([k, v]) => `${k} ${v}`).join('　') || '—';
+  }
+
+  function renderStats() {
+    const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Taipei' }); // yyyy-mm-dd
+    const ti = idx('timestamp'), di = idx('duration_sec'), ei = idx('experience');
+    const todayN = rows.filter(r => String(r[ti]).startsWith(today)).length;
+    const med = median(rows.map(r => parseFloat(r[di])).filter(v => !isNaN(v)));
+    const yes = rows.filter(r => r[ei] === '是').length;
+
+    const cards = [
+      ['總回收份數', rows.length, ''],
+      ['今日新增', todayN, today],
+      ['作答時間中位數', med === null ? '—' : (med / 60).toFixed(1) + ' 分', med === null ? '' : Math.round(med) + ' 秒'],
+      ['曾遭遇網路性騷擾', rows.length ? Math.round(yes / rows.length * 100) + '%' : '—', `${yes} / ${rows.length} 人`],
+      ['性別', '', countBy('gender')],
+      ['年級', '', countBy('grade')],
+      ['學校類型', '', countBy('school_type')]
+    ];
+    const frag = document.createDocumentFragment();
+    cards.forEach(([label, value, sub]) => {
+      const d = document.createElement('div'); d.className = 'stat';
+      const l = document.createElement('div'); l.className = 'label'; l.textContent = label;
+      d.append(l);
+      if (value !== '') { const v = document.createElement('div'); v.className = 'value'; v.textContent = value; d.append(v); }
+      if (sub) { const s = document.createElement('div'); s.className = 'sub'; s.textContent = sub; d.append(s); }
+      frag.append(d);
+    });
+    $('stats').replaceChildren(frag);
+  }
+
+  /* ---------- 匯出 ---------- */
+
+  function stamp() {
+    const d = new Date(), p = n => String(n).padStart(2, '0');
+    return `${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}`;
+  }
+
+  function download(content, filename, type) {
+    const blob = new Blob([content], { type });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+
+  // 匯出的是「目前篩選後」的全部欄位（不受欄位顯示開關影響）
+  function csvCell(v) {
+    let s = String(v == null ? '' : v);
+    if (/^[=+@\t\r]/.test(s) || (/^-/.test(s) && isNaN(Number(s)))) s = "'" + s; // 防止在 Excel 被當成公式
+    return '"' + s.replace(/"/g, '""') + '"';
+  }
+
+  $('btn-csv').onclick = () => {
+    if (!view.length) return alert('目前沒有可匯出的資料');
+    const lines = [headers.map(csvCell).join(',')].concat(view.map(r => r.map(csvCell).join(',')));
+    // 加上 BOM，Excel 直接開啟才不會中文亂碼
+    download('\uFEFF' + lines.join('\r\n'), `survey_${stamp()}.csv`, 'text/csv;charset=utf-8');
+  };
+
+  $('btn-json').onclick = () => {
+    if (!view.length) return alert('目前沒有可匯出的資料');
+    const out = view.map(r => Object.fromEntries(headers.map((h, i) => [h, isNumericCol(h) && r[i] !== '' && !isNaN(r[i]) ? Number(r[i]) : r[i]])));
+    download(JSON.stringify(out, null, 2), `survey_${stamp()}.json`, 'application/json');
+  };
+
+  /* ---------- 啟動：若本分頁已登入過就自動載入 ---------- */
+  const saved = sessionStorage.getItem(TOKEN_KEY);
+  if (saved) load(saved, true);
+})();
+</script>
+</body>
+</html>

@@ -20,7 +20,7 @@ Google Apps Script 網頁應用程式 ──寫入──▶ Google Sheet（respo
 ├── admin.html          管理頁面（表格、篩選、統計、匯出）
 ├── config.js           ★ 唯一需要填寫的設定：Apps Script 網址
 ├── assets/
-│   ├── line-video-call.mp4          小美跳舞視訊情境影片（9:16，約 8.1 秒，網頁預設靜音循環）
+│   ├── line-video-call.mp4          小美舞蹈教室視訊情境影片（3:4，5 秒照片動態效果，網頁預設靜音循環）
 │   ├── line-video-call-poster.jpg   視訊通話影片封面圖（原創插畫）
 │   ├── scene1-bed.mp4               前情提要第一幕電影感真人影片（9:16，6 秒，無聲循環）
 │   ├── scene1-bed.jpg               第一幕插畫封面（影片載入前／備援）

@@ -72,11 +72,11 @@
         .notification-banner {
             position: absolute; top: -100px; left: 12px; right: 12px;
             background: rgba(30, 30, 30, 0.96); backdrop-filter: blur(20px);
-            border: 2px solid var(--accent-red); border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.22); border-radius: 20px;
             padding: 12px 16px; display: flex; align-items: center; gap: 12px;
-            box-shadow: 0 10px 30px rgba(255,48,64,0.5); z-index: 999;
-            cursor: pointer; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            animation: pulseNotif 1.5s infinite;
+            box-shadow: 0 8px 22px rgba(0,0,0,0.28); z-index: 999;
+            border-color: rgba(255,255,255,0.22);
+            cursor: pointer; transition: top 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         @keyframes pulseNotif {
@@ -357,6 +357,7 @@
         .s3-tabs span { flex: 1; padding: 4px 0; color: #777; }
         .s3-tabs span.on { color: #fff; border-bottom: 2px solid #fff; }
         .s3-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+        .s3-caption { position:absolute; left:10px; right:10px; bottom:12px; z-index:8; padding:12px 14px; border-radius:10px; background:rgba(8,8,12,.88); color:#fff; font-size:calc(.72rem + 5pt); line-height:1.45; box-shadow:0 3px 12px rgba(0,0,0,.25); }
         .s3-tile { position: relative; aspect-ratio: 1 / 0.8; overflow: hidden;
             background: linear-gradient(135deg, hsl(var(--h) 45% 38%), hsl(calc(var(--h) + 40) 50% 22%)); }
         .s3-tile .ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 2rem; opacity: 0.9; }
@@ -700,7 +701,7 @@
                         </div>
                         <div class="s2-meta"><b>mei_dance0312</b><span>剛剛 · 限時動態</span></div>
                     </div>
-                    <div class="s2-sticker">💃 熱舞社練習紀錄</div>
+                    <div class="s2-sticker">小美穿著短裙的照片</div>
                 </div>
 
                 <!-- 🎬 鏡頭 3：小美個人主頁（九宮格 9 張照片各不相同）
@@ -733,6 +734,7 @@
                             <div class="s3-tile" style="--i:8; --h:320;"><span class="ph">📸</span><img src="assets/profile/09.jpg" alt="熱舞社排練側拍" onerror="imgFallback(this)"></div>
                         </div>
                     </div>
+                    <div class="s3-caption">小美的主頁個人檔案裡，只剩下跟跳舞有關的字，已經沒有標註阿傑學長的帳號，兩個人應該是分手了...</div>
                 </div>
 
                 <!-- 🎬 鏡頭 4：往下滑看貼文 ➔ 快點兩下按愛心 ➔ 亮起「查看留言區」按鈕 -->
@@ -851,7 +853,6 @@
                 <div class="post-body">當初跟我視訊時不是展現得很熱情嗎？平時練舞還故意放大身材，私底下根本就是另一種人。［附視訊側錄動態影像］</div>
                 
                 <div class="video-wrap">
-                    <div class="video-tag">⚠️ 18禁私密影像</div>
                     <div class="video-916">
                         <video src="assets/line-video-call.mp4" poster="assets/line-video-call-poster.jpg" controls autoplay loop muted playsinline preload="auto"></video>
                     </div>

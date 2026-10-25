@@ -176,7 +176,7 @@
         .line-container { background-color: #849baf; height: 100%; display: flex; flex-direction: column; }
         .line-header { background: #273238; padding: 12px 16px; display: flex; align-items: center; gap: 12px; color: white; font-weight: bold; font-size: calc(0.95rem + 5pt); }
         .line-body { flex: 1; padding: 16px; overflow-y: auto; }
-        .line-bubble { background: #ffffff; color: #000; padding: 10px 14px; border-radius: 16px; border-top-left-radius: 2px; font-size: calc(0.88rem + 5pt); line-height: 1.45; max-width: 82%; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+        .line-bubble { background: #ffffff; color: #000; padding: 10px 14px; border-radius: 16px; border-top-left-radius: 2px; font-size: calc(0.88rem + 5pt); line-height: 1.45; max-width: 82%; box-shadow: 0 1px 3px rgba(0,0,0,0.2); margin-bottom: 12px; animation: popIn 0.3s ease-out; }
 
         /* 9:16 直式動畫模組 */
         .story-container {
@@ -230,7 +230,7 @@
 
         .grid-cell {
             border-radius: 2px; cursor: pointer; display: flex; justify-content: center; align-items: center;
-            font-size: calc(0.58rem + 5pt); text-align: center; padding: 0; overflow: hidden; word-break: break-all; color: #111; font-weight: 600; line-height: 1.1; user-select: none; transition: all 0.18s ease;
+            font-size: calc(0.58rem + 5pt); text-align: center; padding: 0; overflow: hidden; word-break: break-all; color: #111; font-weight: 600; line-height: 1.1; user-select: none; transition: all 0.15s;
         }
 
         .quad-red { background-color: #fbd5d5; }
@@ -316,7 +316,7 @@
         .s2-avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid #000; background: #444; display: block; }
         .s2-meta b { display: block; font-size: calc(0.82rem + 5pt); }
         .s2-meta span { font-size: calc(0.7rem + 5pt); opacity: 0.85; }
-        .s2-sticker { position: absolute; left: 14px; top: 56%; z-index: 5; background: rgba(255,255,255,0.93); color: #111; padding: 6px 12px; border-radius: 8px; font-size: calc(0.78rem + 5pt); font-weight: 700; }
+        .s2-sticker { position: absolute; left: 14px; top: 56%; z-index: 5; background: rgba(255,255,255,0.93); color: #111; padding: 6px 12px; border-radius: 8px; font-size: calc(0.78rem + 5pt); font-weight: 700; transform: rotate(-4deg); }
         .story-scene.active .s2-avatar { animation: ringPulse 1s ease-in-out infinite; }
         .touch.t2, .ripple.r2 { left: 50%; top: 50%; }
         .story-scene.active .touch.t2 { animation: touchToAvatar 3s ease-in-out 1.2s both; }
@@ -357,8 +357,9 @@
         .s3-tabs span { flex: 1; padding: 4px 0; color: #777; }
         .s3-tabs span.on { color: #fff; border-bottom: 2px solid #fff; }
         .s3-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-        .s3-caption { position:absolute; left:10px; right:10px; bottom:12px; z-index:8; padding:12px 14px; border-radius:10px; background:rgba(8,8,12,.88); color:#fff; font-size:calc(.72rem + 5pt); line-height:1.4; }
-        .s3-tile { position: relative; aspect-ratio: 1 / 0.8; overflow: hidden; background: linear-gradient(135deg, hsl(var(--h) 45% 38%), hsl(calc(var(--h) + 40) 50% 22%)); }
+        .s3-caption { position:absolute; left:10px; right:10px; bottom:12px; z-index:8; padding:12px 14px; border-radius:10px; background:rgba(8,8,12,.88); color:#fff; font-size:calc(.72rem + 5pt); line-height:1.45; box-shadow:0 3px 12px rgba(0,0,0,.25); }
+        .s3-tile { position: relative; aspect-ratio: 1 / 0.8; overflow: hidden;
+            background: linear-gradient(135deg, hsl(var(--h) 45% 38%), hsl(calc(var(--h) + 40) 50% 22%)); }
         .s3-tile .ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 2rem; opacity: 0.9; }
         .s3-tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
         .story-scene.active .s3-tile { animation: tileIn 0.45s ease-out both; animation-delay: calc(0.25s + var(--i) * 0.11s); }
@@ -366,7 +367,7 @@
 
         /* 鏡頭四：往下滑 → 雙擊愛心 */
         #scene-4 { background: #101010; color: #f2f2f2; }
-        .s4-top { position: absolute; top: 0; left: 0; right: 0; height: 66px; z-index: 6; background: #101010; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 16px 8px; font-weight: 700; }
+        .s4-top { position: absolute; top: 0; left: 0; right: 0; height: 66px; z-index: 6; background: #101010; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 16px 8px; font-size: calc(0.8rem + 5pt); font-weight: 700; }
         .s4-scroller { --ghost: 80px; position: absolute; top: 64px; left: 0; right: 0; }
         .story-scene.active .s4-scroller { animation: scrollUp 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.5s both; }
         @keyframes scrollUp { from { transform: translateY(0); } to { transform: translateY(calc(-1 * var(--ghost))); } }
@@ -414,7 +415,7 @@
             1% { opacity: 0.9; }
             100% { opacity: 0; transform: scale(2.6); }
         }
-        .bigheart { position: absolute; left: 50%; top: 50%; font-size: 100px; line-height: 1; opacity: 0; z-index: 22; pointer-events: none; filter: drop-shadow(0 4px 14px rgba(255,48,64,0.6)); transform: translate(-50%,-50%); }
+        .bigheart { position: absolute; left: 50%; top: 50%; font-size: 100px; line-height: 1; opacity: 0; z-index: 22; pointer-events: none; filter: drop-shadow(0 4px 14px rgba(255,48,64,0.6)); transform: translate(-50%,-50%) scale(0); }
         .story-scene.active .bigheart { animation: bigHeart 1.2s ease-out 3.25s both; }
         @keyframes bigHeart {
             0% { opacity: 0; transform: translate(-50%,-50%) scale(0); }
@@ -487,10 +488,10 @@
             <div style="background:#faf6f2; border-radius:20px; padding:18px; border:1px solid #e3d6ca;">
                 <h3 style="color:#5a3825; font-size:calc(1.05rem + 5pt); margin-bottom:10px;">親愛的同學，您好：</h3>
                 <p style="font-size:calc(0.82rem + 5pt); line-height:1.6; color:#222; margin-bottom:10px;">
-                    非常感謝您撥空填寫這份問卷，這是一份關於北部地區高中職生面對網路性騷擾之情緒維度與旁觀者行為傾向之關聯的研究問卷。問卷分為兩部分：前半段是情境體驗與情緒感受，後半段是心理量表與個人資料調查。問卷採不記名方式作答，並將嚴格遵守研究倫理與保密原則，請您放心參與。
+                    非常感謝您撥空填寫這份問卷，這是一份關於北部地區高中職生面對網路性騷擾之情緒維度與旁觀者行為傾向之關聯的研究問卷。問卷分為五個部分，預計填寫時間為 5-10 分鐘。每題答案均無對錯或好壞之分，請您依據真實的想法與感覺問答。填寫本問卷時，每一題只能選擇一個答案，請仔細閱讀各部分說明後，認真作答。
                 </p>
                 <p style="font-size:calc(0.82rem + 5pt); line-height:1.6; color:#222; margin-bottom:10px;">
-                    本問卷採不記名方式作答，問卷結果僅供學術研究之用，您的答題內容我們將謹守保密規定，因此請您安心作答。若填答過程中，有任何不適或疑問，您可以隨時停止作答。
+                    本問卷採不記名方式作答，問卷結果僅供學術研究之用，您的答題內容我們將謹守保密規定，因此請您安心作答。若填答過程中，有任何的不適，您可以自行決定暫停或停止作答。如填寫完成後有產生心理不適，請您與校內導師、輔導處或信任的大人進行求助。
                 </p>
                 <p style="font-size:calc(0.82rem + 5pt); line-height:1.6; color:#222; margin-bottom:14px;">
                     非常感謝您的協助與合作！您的填答將為本研究帶來莫大的幫助！
@@ -577,6 +578,7 @@
             <h3 style="color:#ff85a2; font-size:calc(0.95rem + 5pt); margin-bottom:8px; text-align:center;">📌 前情提要</h3>
             
             <div class="story-container">
+                <!-- 4 段式 Story 進度條 -->
                 <div class="story-progress-bar">
                     <div class="story-progress-segment"><div class="story-progress-fill" id="p-fill-1"></div></div>
                     <div class="story-progress-segment"><div class="story-progress-fill" id="p-fill-2"></div></div>
@@ -584,75 +586,109 @@
                     <div class="story-progress-segment"><div class="story-progress-fill" id="p-fill-4"></div></div>
                 </div>
 
+                <!-- 🎬 鏡頭 1：第三人稱視角（華人女高中生深夜躺床側身滑手機）
+                     插畫素材：影片位於 assets/scene1-bed.mp4（9:16、6 秒、無聲循環）
+                     或照片 assets/scene1-bed.jpg；沒放檔案時顯示下方插畫 -->
                 <div class="story-scene full" id="scene-1" style="background:#06080d;">
                     <svg class="s-fill" viewBox="0 0 332 590" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-                      <defs>
-                        <linearGradient id="s1wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0c1019"/><stop offset="1" stop-color="#06080d"/></linearGradient>
-                        <linearGradient id="s1moon" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7a91d6" stop-opacity=".20"/><stop offset="1" stop-color="#7a91d6" stop-opacity="0"/></linearGradient>
-                        <radialGradient id="s1glow" cx="50%" cy="50%" r="50%">
-                          <stop offset="0" stop-color="#a9d6ff" stop-opacity=".9"/>
-                          <stop offset=".35" stop-color="#4a90e2" stop-opacity=".40"/>
-                          <stop offset="1" stop-color="#2a5fb0" stop-opacity="0"/>
-                        </radialGradient>
-                        <radialGradient id="s1vig" cx="50%" cy="52%" r="78%"><stop offset=".42" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".8"/></radialGradient>
-                        <linearGradient id="s1screen" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f2f9ff"/><stop offset="1" stop-color="#86bdff"/></linearGradient>
-                        <linearGradient id="s1blanket" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3b4a72"/><stop offset=".5" stop-color="#2a3556"/><stop offset="1" stop-color="#1c2440"/></linearGradient>
-                      </defs>
-                      <rect width="332" height="590" fill="url(#s1wall)"/>
-                      <rect x="22" y="64" width="86" height="140" rx="3" fill="#0f1628" stroke="#1d2744" stroke-width="3"/>
-                      <path d="M65 64 V204 M22 134 H108" stroke="#1d2744" stroke-width="3"/>
-                      <polygon points="22,64 108,64 200,360 70,360" fill="url(#s1moon)"/>
-                      <g transform="translate(132,86)">
-                        <line x1="20" y1="-14" x2="20" y2="-2" stroke="#2c3652" stroke-width="2"/>
-                        <path d="M8 -2 L20 -8 L32 -2" fill="none" stroke="#2c3652" stroke-width="2"/>
-                        <path d="M0 6 L20 -2 L40 6 L58 20 L50 36 L40 30 L40 92 L0 92 L0 30 L-10 36 L-18 20 Z" fill="#141b2d"/>
-                        <path d="M10 -1 L20 14 L30 -1" fill="none" stroke="#2f3a58" stroke-width="2"/>
-                        <path d="M20 14 L16 24 L20 56 L24 24 Z" fill="#5b2431"/>
-                      </g>
-                      <rect x="204" y="190" width="108" height="5" rx="2" fill="#1a2033"/>
-                      <rect x="220" y="164" width="76" height="26" rx="4" fill="#0b0e17" stroke="#1c2336"/>
-                      <text x="258" y="183" text-anchor="middle" font-family="monospace" font-size="17" fill="#ff5a5a" opacity=".9">01:47</text>
-                      <rect x="0" y="414" width="332" height="176" fill="#121828"/>
-                      <rect x="0" y="406" width="332" height="12" fill="#1a2236"/>
-                      <rect x="14" y="346" width="136" height="66" rx="28" fill="#232c45"/>
-                      <ellipse cx="66" cy="384" rx="58" ry="24" fill="#0a0a0f"/>
-                      <path d="M104 404 C104 366 138 372 176 374 L332 384 L332 470 L40 470 L40 440 C70 436 100 428 104 404 Z" fill="url(#s1blanket)">
-                        <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.6;0 0" dur="4.2s" repeatCount="indefinite"/>
-                      </path>
-                      <circle cx="116" cy="352" r="35" fill="#d7a48e"/>
-                      <circle cx="150" cy="357" r="4.5" fill="#d7a48e"/>
-                      <ellipse cx="134" cy="349" rx="3.2" ry="2.4" fill="#1a1013"/>
-                      <circle cx="135" cy="348.3" r="1" fill="#fff" opacity=".85"/>
-                      <path d="M126 341 Q134 337 142 341" stroke="#2a1a16" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-                      <path d="M140 368 Q147 370 151 366" stroke="#9b5b55" stroke-width="2" fill="none" stroke-linecap="round"/>
-                      <path d="M80 356 C72 308 118 296 146 322 C124 322 112 336 108 358 C104 378 86 380 80 356 Z" fill="#0c0c12"/>
-                      <path d="M146 322 C150 330 148 336 144 340 C140 332 140 326 146 322 Z" fill="#0c0c12"/>
-                      <ellipse cx="96" cy="372" rx="22" ry="14" fill="#0c0c12"/>
-                      <path d="M120 402 C150 404 184 392 194 356" stroke="#59658a" stroke-width="17" stroke-linecap="round" fill="none"/>
-                      <circle cx="196" cy="346" r="10" fill="#d7a48e"/>
-                      <g transform="rotate(-6 196 326)">
-                        <rect x="188" y="298" width="24" height="52" rx="5" fill="#0d121c" stroke="#2c3a5a" stroke-width="1.5"/>
-                        <polygon points="181,303 189,300 189,347 181,350" fill="url(#s1screen)">
-                          <animate attributeName="opacity" values=".8;1;.85;1;.8" dur="2.4s" repeatCount="indefinite"/>
-                        </polygon>
-                      </g>
-                      <ellipse cx="214" cy="332" rx="5" ry="10" fill="#d7a48e" transform="rotate(-8 214 332)">
-                        <animateTransform attributeName="transform" type="translate" values="0 8;0 -10;0 8" dur="1.5s" repeatCount="indefinite" additive="sum"/>
-                      </ellipse>
-                      <circle cx="176" cy="332" r="138" fill="url(#s1glow)" style="mix-blend-mode:screen">
-                        <animate attributeName="opacity" values=".7;1;.78;.95;.7" dur="3s" repeatCount="indefinite"/>
-                      </circle>
-                      <g fill="#9fc7ff" opacity=".55">
-                        <circle cx="210" cy="280" r="1.2"><animate attributeName="opacity" values="0;.8;0" dur="3.4s" repeatCount="indefinite"/></circle>
-                        <circle cx="238" cy="304" r="1"><animate attributeName="opacity" values="0;.7;0" dur="2.7s" begin=".8s" repeatCount="indefinite"/></circle>
-                        <circle cx="168" cy="262" r="1.1"><animate attributeName="opacity" values="0;.7;0" dur="3.9s" begin="1.4s" repeatCount="indefinite"/></circle>
-                      </g>
-                      <rect width="332" height="590" fill="url(#s1vig)"/>
-                    </svg>
+  <defs>
+    <linearGradient id="s1wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0c1019"/><stop offset="1" stop-color="#06080d"/></linearGradient>
+    <linearGradient id="s1moon" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7a91d6" stop-opacity=".20"/><stop offset="1" stop-color="#7a91d6" stop-opacity="0"/></linearGradient>
+    <radialGradient id="s1glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#a9d6ff" stop-opacity=".9"/>
+      <stop offset=".35" stop-color="#4a90e2" stop-opacity=".40"/>
+      <stop offset="1" stop-color="#2a5fb0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="s1vig" cx="50%" cy="52%" r="78%"><stop offset=".42" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".8"/></radialGradient>
+    <linearGradient id="s1screen" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f2f9ff"/><stop offset="1" stop-color="#86bdff"/></linearGradient>
+    <linearGradient id="s1blanket" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3b4a72"/><stop offset=".5" stop-color="#2a3556"/><stop offset="1" stop-color="#1c2440"/></linearGradient>
+  </defs>
+
+  <rect width="332" height="590" fill="url(#s1wall)"/>
+
+  <!-- 窗戶與微弱月光 -->
+  <rect x="22" y="64" width="86" height="140" rx="3" fill="#0f1628" stroke="#1d2744" stroke-width="3"/>
+  <path d="M65 64 V204 M22 134 H108" stroke="#1d2744" stroke-width="3"/>
+  <polygon points="22,64 108,64 200,360 70,360" fill="url(#s1moon)"/>
+
+  <!-- 掛在牆上的學校制服 -->
+  <g transform="translate(132,86)">
+    <line x1="20" y1="-14" x2="20" y2="-2" stroke="#2c3652" stroke-width="2"/>
+    <path d="M8 -2 L20 -8 L32 -2" fill="none" stroke="#2c3652" stroke-width="2"/>
+    <path d="M0 6 L20 -2 L40 6 L58 20 L50 36 L40 30 L40 92 L0 92 L0 30 L-10 36 L-18 20 Z" fill="#141b2d"/>
+    <path d="M10 -1 L20 14 L30 -1" fill="none" stroke="#2f3a58" stroke-width="2"/>
+    <path d="M20 14 L16 24 L20 56 L24 24 Z" fill="#5b2431"/>
+  </g>
+
+  <!-- 置物架與電子鐘 -->
+  <rect x="204" y="190" width="108" height="5" rx="2" fill="#1a2033"/>
+  <rect x="220" y="164" width="76" height="26" rx="4" fill="#0b0e17" stroke="#1c2336"/>
+  <text x="258" y="183" text-anchor="middle" font-family="monospace" font-size="17" fill="#ff5a5a" opacity=".9">01:47</text>
+
+  <!-- 床 -->
+  <rect x="0" y="414" width="332" height="176" fill="#121828"/>
+  <rect x="0" y="406" width="332" height="12" fill="#1a2236"/>
+
+  <!-- 枕頭 -->
+  <rect x="14" y="346" width="136" height="66" rx="28" fill="#232c45"/>
+
+  <!-- 散在枕頭上的長髮 -->
+  <ellipse cx="66" cy="384" rx="58" ry="24" fill="#0a0a0f"/>
+
+  <!-- 側臥的身體（蓋著棉被） -->
+  <path d="M104 404 C104 366 138 372 176 374 L332 384 L332 470 L40 470 L40 440 C70 436 100 428 104 404 Z" fill="url(#s1blanket)">
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -1.6;0 0" dur="4.2s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 頭與臉（面向右側的手機） -->
+  <circle cx="116" cy="352" r="35" fill="#d7a48e"/>
+  <circle cx="150" cy="357" r="4.5" fill="#d7a48e"/>
+  <ellipse cx="134" cy="349" rx="3.2" ry="2.4" fill="#1a1013"/>
+  <circle cx="135" cy="348.3" r="1" fill="#fff" opacity=".85"/>
+  <path d="M126 341 Q134 337 142 341" stroke="#2a1a16" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  <path d="M140 368 Q147 370 151 366" stroke="#9b5b55" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- 頭髮 -->
+  <path d="M80 356 C72 308 118 296 146 322 C124 322 112 336 108 358 C104 378 86 380 80 356 Z" fill="#0c0c12"/>
+  <path d="M146 322 C150 330 148 336 144 340 C140 332 140 326 146 322 Z" fill="#0c0c12"/>
+  <ellipse cx="96" cy="372" rx="22" ry="14" fill="#0c0c12"/>
+
+  <!-- 手臂（睡衣袖子） -->
+  <path d="M120 402 C150 404 184 392 194 356" stroke="#59658a" stroke-width="17" stroke-linecap="round" fill="none"/>
+  <circle cx="196" cy="346" r="10" fill="#d7a48e"/>
+
+  <!-- 手機 -->
+  <g transform="rotate(-6 196 326)">
+    <rect x="188" y="298" width="24" height="52" rx="5" fill="#0d121c" stroke="#2c3a5a" stroke-width="1.5"/>
+    <polygon points="181,303 189,300 189,347 181,350" fill="url(#s1screen)">
+      <animate attributeName="opacity" values=".8;1;.85;1;.8" dur="2.4s" repeatCount="indefinite"/>
+    </polygon>
+  </g>
+
+  <!-- 大拇指輕微滑動 -->
+  <ellipse cx="214" cy="332" rx="5" ry="10" fill="#d7a48e" transform="rotate(-8 214 332)">
+    <animateTransform attributeName="transform" type="translate" values="0 8;0 -10;0 8" dur="1.5s" repeatCount="indefinite" additive="sum"/>
+  </ellipse>
+
+  <!-- 手機螢幕映照的微弱光芒（落在臉與棉被上） -->
+  <circle cx="176" cy="332" r="138" fill="url(#s1glow)" style="mix-blend-mode:screen">
+    <animate attributeName="opacity" values=".7;1;.78;.95;.7" dur="3s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 灰塵微光 -->
+  <g fill="#9fc7ff" opacity=".55">
+    <circle cx="210" cy="280" r="1.2"><animate attributeName="opacity" values="0;.8;0" dur="3.4s" repeatCount="indefinite"/></circle>
+    <circle cx="238" cy="304" r="1"><animate attributeName="opacity" values="0;.7;0" dur="2.7s" begin=".8s" repeatCount="indefinite"/></circle>
+    <circle cx="168" cy="262" r="1.1"><animate attributeName="opacity" values="0;.7;0" dur="3.9s" begin="1.4s" repeatCount="indefinite"/></circle>
+  </g>
+
+  <rect width="332" height="590" fill="url(#s1vig)"/>
+</svg>
                     <img class="s1-real" src="assets/scene1-bed.jpg" alt="" onerror="this.remove()">
                     <video class="s1-real" autoplay muted loop playsinline preload="auto"><source src="assets/scene1-bed.mp4" type="video/mp4" onerror="this.parentNode.remove()"></video>
                 </div>
 
+                <!-- 🎬 鏡頭 2：第一人稱視角（9:16 手機畫面）➔ 小美熱舞限時動態，自動點擊圓形頭像 -->
                 <div class="story-scene full" id="scene-2">
                     <div class="s-fill s-grad"></div>
                     <img class="s-img" src="assets/profile/07.jpg" alt="小美熱舞限時動態" onerror="this.style.display='none'">
@@ -668,6 +704,8 @@
                     <div class="s2-sticker">成發影片觀看破20萬🔥</div>
                 </div>
 
+                <!-- 🎬 鏡頭 3：小美個人主頁（九宮格 9 張照片各不相同）
+                     照片放在 assets/profile/01.jpg ~ 09.jpg -->
                 <div class="story-scene full" id="scene-3">
                     <div class="s3-col">
                         <div class="s3-bar"><span>‹</span><span>mei_dance0312</span><span>⋯</span></div>
@@ -685,12 +723,12 @@
                         </div>
                         <div class="s3-tabs"><span class="on">▦</span><span>▶</span><span>🏷️</span></div>
                         <div class="s3-grid">
-                            <div class="s3-tile" style="--i:0; --h:0;"><span class="ph">💃</span><img src="assets/profile/01.jpg" alt="熱舞社排練側拍" onerror="imgFallback(this)"></div>
-                            <div class="s3-tile" style="--i:1; --h:40;"><span class="ph">🩰</span><img src="assets/profile/02.jpg" alt="熱舞社排練側拍" onerror="imgFallback(this)"></div>
-                            <div class="s3-tile" style="--i:2; --h:80;"><span class="ph">🎵</span><img src="assets/profile/03.jpg" alt="熱舞社排練側拍" onerror="imgFallback(this)"></div>
-                            <div class="s3-tile" style="--i:3; --h:120;"><span class="ph">👟</span><img src="assets/profile/04.jpg" alt="熱舞社排練側拍" onerror="imgFallback(this)"></div>
-                            <div class="s3-tile" style="--i:4; --h:160;"><span class="ph">🎶</span><img src="assets/profile/05.jpg" alt="熱舞社排練側拍" onerror="imgFallback(this)"></div>
-                            <div class="s3-tile" style="--i:5; --h:200;"><span class="ph">🪩</span><img src="assets/profile/06.jpg" alt="熱舞社排練側拍" onerror="imgFallback(this)"></div>
+                            <div class="s3-tile" style="--i:0; --h:0;"><span class="ph">💃</span><img src="assets/profile/01.jpg" data-fb="assets/profile/06.jpg" alt="熱舞社排練側拍" onerror="imgFallback(this)"></div>
+                            <div class="s3-tile" style="--i:1; --h:40;"><span class="ph">🩰</span><img src="assets/profile/02.jpg" data-fb="assets/profile/06.jpg" alt="熱舞社排練側拍" onerror="imgFallback(this)"></div>
+                            <div class="s3-tile" style="--i:2; --h:80;"><span class="ph">🎵</span><img src="assets/profile/03.jpg" data-fb="assets/profile/03.jpg" alt="熱舞社排練側拍" onerror="imgFallback(this)"></div>
+                            <div class="s3-tile" style="--i:3; --h:120;"><span class="ph">👟</span><img src="assets/profile/04.jpg" data-fb="assets/profile/04.jpg" alt="熱舞社排練側拍" onerror="imgFallback(this)"></div>
+                            <div class="s3-tile" style="--i:4; --h:160;"><span class="ph">🎶</span><img src="assets/profile/05.jpg" data-fb="assets/profile/07.jpg" alt="熱舞社排練側拍" onerror="imgFallback(this)"></div>
+                            <div class="s3-tile" style="--i:5; --h:200;"><span class="ph">🪩</span><img src="assets/profile/06.jpg" data-fb="assets/profile/07.jpg" alt="熱舞社排練側拍" onerror="imgFallback(this)"></div>
                             <div class="s3-tile" style="--i:6; --h:240;"><span class="ph">✨</span><img src="assets/profile/07.jpg" alt="熱舞社排練側拍" onerror="imgFallback(this)"></div>
                             <div class="s3-tile" style="--i:7; --h:280;"><span class="ph">🕺</span><img src="assets/profile/08.jpg" alt="熱舞社排練側拍" onerror="imgFallback(this)"></div>
                             <div class="s3-tile" style="--i:8; --h:320;"><span class="ph">📸</span><img src="assets/profile/09.jpg" alt="熱舞社排練側拍" onerror="imgFallback(this)"></div>
@@ -699,6 +737,7 @@
                     <div class="s3-caption">小美的主頁個人檔案裡，只剩下跟跳舞有關的字，已經沒有標註阿傑學長的帳號，兩個人應該是分手了...</div>
                 </div>
 
+                <!-- 🎬 鏡頭 4：往下滑看貼文 ➔ 快點兩下按愛心 ➔ 亮起「查看留言區」按鈕 -->
                 <div class="story-scene full" id="scene-4">
                     <div class="s4-top"><span>‹ 貼文</span><span>⋯</span></div>
                     <div class="s4-scroller">
@@ -716,20 +755,20 @@
                                 <div class="touch t4"></div>
                                 <div class="bigheart">❤️</div>
                                 <div class="minihearts">
-                                    <span style="--x:-75px; --d:0.0s; font-size:22px;">❤️</span>
-                                    <span style="--x:-48px; --d:0.04s; font-size:26px;">❤️</span>
-                                    <span style="--x:-26px; --d:0.09s; font-size:14px;">❤️</span>
-                                    <span style="--x:-8px; --d:0.14s; font-size:22px;">❤️</span>
-                                    <span style="--x:10px; --d:0.18s; font-size:18px;">❤️</span>
-                                    <span style="--x:28px; --d:0.22s; font-size:14px;">❤️</span>
-                                    <span style="--x:50px; --d:0.27s; font-size:26px;">❤️</span>
-                                    <span style="--x:76px; --d:0.32s; font-size:18px;">❤️</span>
-                                    <span style="--x:-60px; --d:0.36s; font-size:26px;">❤️</span>
-                                    <span style="--x:-34px; --d:0.4s; font-size:14px;">❤️</span>
-                                    <span style="--x:16px; --d:0.45s; font-size:14px;">❤️</span>
-                                    <span style="--x:38px; --d:0.49s; font-size:14px;">❤️</span>
-                                    <span style="--x:62px; --d:0.54s; font-size:14px;">❤️</span>
-                                    <span style="--x:-16px; --d:0.58s; font-size:22px;">❤️</span>
+                                <span style="--x:-75px; --d:0.0s; font-size:22px;">❤️</span>
+                                <span style="--x:-48px; --d:0.04s; font-size:26px;">❤️</span>
+                                <span style="--x:-26px; --d:0.09s; font-size:14px;">❤️</span>
+                                <span style="--x:-8px; --d:0.14s; font-size:22px;">❤️</span>
+                                <span style="--x:10px; --d:0.18s; font-size:18px;">❤️</span>
+                                <span style="--x:28px; --d:0.22s; font-size:14px;">❤️</span>
+                                <span style="--x:50px; --d:0.27s; font-size:26px;">❤️</span>
+                                <span style="--x:76px; --d:0.32s; font-size:18px;">❤️</span>
+                                <span style="--x:-60px; --d:0.36s; font-size:26px;">❤️</span>
+                                <span style="--x:-34px; --d:0.4s; font-size:14px;">❤️</span>
+                                <span style="--x:16px; --d:0.45s; font-size:14px;">❤️</span>
+                                <span style="--x:38px; --d:0.49s; font-size:14px;">❤️</span>
+                                <span style="--x:62px; --d:0.54s; font-size:14px;">❤️</span>
+                                <span style="--x:-16px; --d:0.58s; font-size:22px;">❤️</span>
                                 </div>
                             </div>
                             <div class="s4-metrics">
@@ -741,6 +780,7 @@
                     <div class="touch sw"></div>
                 </div>
 
+                <!-- 影音字幕導覽框 -->
                 <div class="story-caption-box" id="story-caption-text">
                     💬 深夜昏暗的房間裡，妳躺在床上滑著手機社群...
                 </div>
@@ -751,12 +791,14 @@
             </button>
         </div>
 
+        <!-- 頁面 3: 社群三幕體驗區 -->
         <div class="main-content hidden" id="view-social">
             <div class="app-header">
                 <span class="app-logo">Threads</span>
                 <span style="font-size: calc(1.2rem + 5pt);">🔍 🔔 ✉️</span>
             </div>
 
+            <!-- 第一幕：貼文與漸進式留言區 -->
             <div id="stage-1" class="card">
                 <div class="user-header">
                     <img src="assets/avatars/xiaomei.jpg" class="avatar" alt="小美">
@@ -781,6 +823,7 @@
                     💬 查看熱門留言 (5 則回應)
                 </button>
 
+                <!-- 8 則留言預設隱藏，點擊按鈕後一則一則慢慢出現 -->
                 <div id="comments-1" class="comments-list hidden">
                     <div style="font-size:calc(0.78rem); color:#888; margin-bottom:8px;">熱門留言 (5)：</div>
                     <div id="c1-1" class="comment-item hidden"><span class="comment-author">@dance_girl</span>成發超美！小美加油✨</div>
@@ -789,12 +832,14 @@
                     <div id="c1-4" class="comment-item hidden"><span class="comment-author">@classmate_a</span>平時裝得很高冷，私底下😏</div>
                     <div id="c1-5" class="comment-item hidden"><span class="comment-author">@anonymous_x</span>扯... 留言區怎麼一堆噁男啊？</div>
 
-                    <button class="btn-action btn-highlight hidden" id="btn-to-stage2" style="margin-top:15px;">
+
+                    <button class="btn-action btn-highlight" id="btn-to-stage2" style="margin-top:15px; display:none;">
                         關閉此篇貼文，準備睡覺去 ➔
                     </button>
                 </div>
             </div>
 
+            <!-- 第二幕 (高擬真私密視訊側錄) -->
             <div id="stage-2" class="card hidden">
                 <div class="user-header">
                     <img src="assets/avatars/ajie.jpg" class="avatar" alt="阿傑">
@@ -826,12 +871,14 @@
                     <div id="c2-1" class="comment-item hidden"><span class="comment-author">@repost_user</span>這已經傳遍全校各個群組了吧...太誇張了。</div>
                     <div id="c2-2" class="comment-item hidden"><span class="comment-author">@school_boy</span>求視訊完整影片！私～～</div>
 
-                    <button class="btn-action btn-highlight hidden" id="btn-trigger-pop" style="margin-top:15px;">
+                    
+                    <button class="btn-action btn-highlight" id="btn-trigger-pop" style="margin-top:15px; display:none;">
                         結束瀏覽，繼續滑手機... ➔
                     </button>
                 </div>
             </div>
 
+            <!-- 第三幕 -->
             <div id="stage-3" class="card hidden" style="border-color: var(--accent-red);">
                 <div class="user-header">
                     <img src="assets/avatars/group.jpg" class="avatar" alt="爆料群">
@@ -855,18 +902,19 @@
 
                     <div id="chat-m1" class="chat-bubble left hidden">
                         <strong style="color:#ff85a2;">@hate_school_01:</strong><br>
-                        📍 順便公開她的住家地址：新莊區XX路XX號，平時都搭捷運橘線！加碼附上她哪天會去哪裡補習，大家有空可以去堵她，看她有多騷...
+                        📍 順便公開她的住家地址：新莊區XX路XX號，平時都搭捷運橘線！加碼附上她哪天會去哪裡補習，大家有空可以去堵她，看她有多騷！
                     </div>
                     <div id="chat-m2" class="chat-bubble left hidden"><strong>@girl_lisa:</strong> 哇直接爆地址跟行程喔，太狠了吧...</div>
                     <div id="chat-m3" class="chat-bubble left hidden"><strong>@boy_tom:</strong> 已經備份轉發給其他人了，明天放學一起去圍堵🔥</div>
                 </div>
 
-                <button class="btn-action btn-highlight hidden" id="btn-exit-group" style="margin-top:15px;">
+                <button class="btn-action btn-highlight" id="btn-exit-group" style="margin-top:15px; display:none;">
                     離開聊天室，繼續使用手機 ➔
                 </button>
             </div>
         </div>
 
+        <!-- 頁面 4: LINE 視窗 -->
         <div class="line-container hidden" id="view-line">
             <div class="line-header">
                 <span>←</span>
@@ -877,7 +925,7 @@
                 <div style="text-align:center; font-size:calc(0.75rem); color:#fff; margin-bottom:15px; opacity:0.8;">今日 上午 10:15</div>
                 
                 <div class="line-bubble">
-                    欸妳有看到那個爆料群組嗎？<br>聽說小美今天進學校後就躲在廁所大哭，剛剛被輔導老師帶去輔導處了... 聽說她現在情緒崩潰，明天好... 
+                    欸妳有看到那個爆料群組嗎？<br>聽說小美今天進學校後就躲在廁所大哭，剛剛被輔導老師帶去輔導處了... 聽說她現在情緒崩潰，明天好像不敢來學校了... 😰
                 </div>
 
                 <button class="btn-action btn-highlight" id="btn-to-meter" style="margin-top:30px; background:#273238; border:1px solid #455a64;">
@@ -886,6 +934,7 @@
             </div>
         </div>
 
+        <!-- 頁面 5: 10x10 情緒儀表板 -->
         <div class="main-content hidden" id="view-meter" style="display:flex; flex-direction:column; align-items:center;">
             <h3 style="color:#5a3825; font-size:calc(0.95rem); margin-top:10px; text-align:center; line-height:1.4;">
                 目睹剛才情境後，請點選您當下的情緒感受<br>
@@ -901,11 +950,12 @@
             </button>
         </div>
 
+        <!-- 頁面 6-1: 責任感量表 -->
         <div class="main-content hidden" id="view-s1">
             <h3 style="color:#5a3825; font-size:calc(1rem); margin-bottom:12px;">第二部分 (1/3)：責任感量表</h3>
             
             <div class="survey-instruction">
-                <strong>填答說明：</strong> 本問卷旨在瞭解您觀看完網路性騷擾情境後，對於「個人責任」的主觀感受。請仔細閱讀每一個題項，在最符合您當下感受的選項上點選。
+                <strong>填答說明：</strong> 本問卷旨在瞭解您觀看完網路性騷擾情境後，對於「個人責任」的主觀感受。請仔細閱讀每一個題項，在最符合您情況的選項空格內劃記。答案無關對錯，請安心填答。
             </div>
 
             <div class="survey-item">
@@ -951,102 +1001,713 @@
                     <button type="button" class="scale-btn" data-v="1" onclick="setScore(this)">非常不符合</button>
                 </div>
             </div>
+
+            <div class="survey-item">
+                <div class="survey-q">5. 閱讀完這個情境後，我不認為那是「別人」或老師的事，這也是我的事。</div>
+                <div class="scale-options" data-var="resp_5">
+                    <button type="button" class="scale-btn" data-v="5" onclick="setScore(this)">非常符合</button>
+                    <button type="button" class="scale-btn" data-v="4" onclick="setScore(this)">符合</button>
+                    <button type="button" class="scale-btn" data-v="3" onclick="setScore(this)">普通</button>
+                    <button type="button" class="scale-btn" data-v="2" onclick="setScore(this)">不符合</button>
+                    <button type="button" class="scale-btn" data-v="1" onclick="setScore(this)">非常不符合</button>
+                </div>
+            </div>
+
+            <button class="btn-action btn-highlight" id="btn-s1-next" style="margin-top:20px;">
+                填答完畢，進入下一組題目 (2/3) ➔
+            </button>
         </div>
+
+        <!-- 頁面 6-2: 挺身自我效能量表 -->
+        <div class="main-content hidden" id="view-s2">
+            <h3 style="color:#5a3825; font-size:calc(1rem); margin-bottom:12px;">第二部分 (2/3)：挺身自我效能量表</h3>
+            
+            <div class="survey-instruction">
+                <strong>填答說明：</strong> 本問卷旨在瞭解您在面對類似剛才的網路性騷擾事件時，對於「自己是否有能力採取行動」的信心程度。請仔細閱讀每一個題項，在最符合您情況的選項空格內劃記。答案無關對錯，請安心填答。
+            </div>
+
+            <div class="survey-item">
+                <div class="survey-q">1. 我感覺到我有能力口頭制止某些同學惡劣對待另一同學。</div>
+                <div class="scale-options" data-var="eff_1">
+                    <button type="button" class="scale-btn" data-v="5" onclick="setScore(this)">非常符合</button>
+                    <button type="button" class="scale-btn" data-v="4" onclick="setScore(this)">符合</button>
+                    <button type="button" class="scale-btn" data-v="3" onclick="setScore(this)">普通</button>
+                    <button type="button" class="scale-btn" data-v="2" onclick="setScore(this)">不符合</button>
+                    <button type="button" class="scale-btn" data-v="1" onclick="setScore(this)">非常不符合</button>
+                </div>
+            </div>
+
+            <div class="survey-item">
+                <div class="survey-q">2. 我感覺到我有能力幫助被網路性騷擾的同學。</div>
+                <div class="scale-options" data-var="eff_2">
+                    <button type="button" class="scale-btn" data-v="5" onclick="setScore(this)">非常符合</button>
+                    <button type="button" class="scale-btn" data-v="4" onclick="setScore(this)">符合</button>
+                    <button type="button" class="scale-btn" data-v="3" onclick="setScore(this)">普通</button>
+                    <button type="button" class="scale-btn" data-v="2" onclick="setScore(this)">不符合</button>
+                    <button type="button" class="scale-btn" data-v="1" onclick="setScore(this)">非常不符合</button>
+                </div>
+            </div>
+
+            <div class="survey-item">
+                <div class="survey-q">3. 我感覺到我有能力阻止網路性騷擾。</div>
+                <div class="scale-options" data-var="eff_3">
+                    <button type="button" class="scale-btn" data-v="5" onclick="setScore(this)">非常符合</button>
+                    <button type="button" class="scale-btn" data-v="4" onclick="setScore(this)">符合</button>
+                    <button type="button" class="scale-btn" data-v="3" onclick="setScore(this)">普通</button>
+                    <button type="button" class="scale-btn" data-v="2" onclick="setScore(this)">不符合</button>
+                    <button type="button" class="scale-btn" data-v="1" onclick="setScore(this)">非常不符合</button>
+                </div>
+            </div>
+
+            <div class="survey-item">
+                <div class="survey-q">4. 我感覺到我有能力告訴正在欺負別人的騷擾者，停止做這些事情。</div>
+                <div class="scale-options" data-var="eff_4">
+                    <button type="button" class="scale-btn" data-v="5" onclick="setScore(this)">非常符合</button>
+                    <button type="button" class="scale-btn" data-v="4" onclick="setScore(this)">符合</button>
+                    <button type="button" class="scale-btn" data-v="3" onclick="setScore(this)">普通</button>
+                    <button type="button" class="scale-btn" data-v="2" onclick="setScore(this)">不符合</button>
+                    <button type="button" class="scale-btn" data-v="1" onclick="setScore(this)">非常不符合</button>
+                </div>
+            </div>
+
+            <div class="survey-item">
+                <div class="survey-q">5. 我感覺到我有能力阻止某群體利用不實故事與謊言來傷害某個同學。</div>
+                <div class="scale-options" data-var="eff_5">
+                    <button type="button" class="scale-btn" data-v="5" onclick="setScore(this)">非常符合</button>
+                    <button type="button" class="scale-btn" data-v="4" onclick="setScore(this)">符合</button>
+                    <button type="button" class="scale-btn" data-v="3" onclick="setScore(this)">普通</button>
+                    <button type="button" class="scale-btn" data-v="2" onclick="setScore(this)">不符合</button>
+                    <button type="button" class="scale-btn" data-v="1" onclick="setScore(this)">非常不符合</button>
+                </div>
+            </div>
+
+            <button class="btn-action btn-highlight" id="btn-s2-next" style="margin-top:20px;">
+                填答完畢，進入下一組題目 (3/3) ➔
+            </button>
+        </div>
+
+        <!-- 頁面 6-3: 旁觀者行為傾向量表 -->
+        <div class="main-content hidden" id="view-s3">
+            <h3 style="color:#5a3825; font-size:calc(1rem + 5pt); margin-bottom:12px;">第二部分 (3/3)：旁觀者行為傾向量表</h3>
+            
+            <div class="survey-instruction">
+                <strong>填答說明：</strong> 本問卷旨在瞭解若您日常生活中使用社群媒體（如 IG、Threads、Discord）時，遇到類似剛才的網路性騷擾事件，您採取以下行為的可能性。請仔細閱讀每一個題項，在最符合您情況的選項空格內劃記。答案無關對錯，請安心填答。
+            </div>
+
+            <div id="bystander-questions-container">
+                <!-- 動態注入 21 題 -->
+            </div>
+
+            <button class="btn-action btn-highlight" id="btn-finish-all" style="margin-top:20px; background:var(--accent-green);">
+                閱讀關懷說明，準備提交問卷 ➔
+            </button>
+        </div>
+
+        <!-- 頁面 7: 關懷提醒與心理支持資源 -->
+        <div class="main-content hidden" id="view-finish">
+            <div style="background:#faf6f2; border-radius:20px; padding:18px; border:1px solid #e3d6ca; text-align:left;">
+                <h3 style="color:#5a3825; font-size:calc(1.05rem + 5pt); margin-bottom:12px; text-align:center;">非常感謝您耐心完成本研究問卷！</h3>
+                
+                <p style="font-size:calc(0.8rem + 5pt); line-height:1.6; color:#222; margin-bottom:12px;">
+                    由於本問卷涉及「網路性騷擾情境」之體驗與閱讀，若您在觀看或填答過程中感到任何心理不適、焦慮、困惑，或情緒受到影響，這是正常的心理反應。
+                </p>
+                <p style="font-size:calc(0.8rem + 5pt); line-height:1.6; color:#222; margin-bottom:12px;">
+                    若您或您身邊的同學需要心理支持、專業諮詢，或遇到了相關的網路困擾需要尋求協助，隨時可以透過以下保密且免費的官方管道尋求即時幫助：
+                </p>
+
+                <table class="resource-table">
+                    <thead>
+                        <tr>
+                            <th>單元/資源名稱</th>
+                            <th>服務內容</th>
+                            <th>聯繫方式</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>各校學生輔導處</strong></td>
+                            <td>提供個人心理諮商、情緒調適之陪伴與協助。</td>
+                            <td>請洽各校輔導處<br>（上課日）</td>
+                        </tr>
+                        <tr>
+                            <td><strong>113 保護專線</strong><br>（衛福部）</td>
+                            <td>提供性騷擾、性侵害、家暴及兒少保護 24H 緊急諮詢。</td>
+                            <td>直撥「113」<br>（24H 免費）</td>
+                        </tr>
+                        <tr>
+                            <td><strong>性影像處理中心</strong><br>（衛福部）</td>
+                            <td>未經同意私密性影像下架移除協助、申訴指引與法律諮詢。</td>
+                            <td>(02) 6605-7373<br>(09:00–22:00)<br><a href="https://siarc.mohw.gov.tw" target="_blank" style="color:#0095f6;">siarc.mohw.gov.tw</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>110 報案專線</strong><br>（警政署）</td>
+                            <td>即時身心安全威脅或緊急危險尋求救援。</td>
+                            <td>直撥「110」<br>（24H 免費）</td>
+                        </tr>
+                        <tr>
+                            <td><strong>1925 安心專線</strong><br>（衛福部）</td>
+                            <td>嚴重情緒低落或心理壓力過大之即時心理支持。</td>
+                            <td>直撥「1925」<br>（24H 免費）</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p style="font-size:calc(0.82rem + 5pt); color:#111; font-weight:bold; text-align:center; margin-top:14px;">
+                    再次感謝您的參與！請點擊下方「提交」完成問卷。<br>祝您學習順利、身心健康！
+                </p>
+
+                <div id="submit-error" class="hidden" style="margin-top:14px; padding:10px 12px; border-radius:10px; background:#fdecee; border:1px solid #d93a49; color:#9b1c2a; font-size:calc(0.8rem + 5pt); line-height:1.5;"></div>
+
+                <button class="btn-action btn-highlight" id="btn-submit-final" style="margin-top:16px; background:var(--accent-green);">
+                    ✅ 提交問卷
+                </button>
+            </div>
+        </div>
+
+        <!-- 最終提交成功頁面 -->
+        <div class="main-content hidden" id="view-submitted">
+            <div style="background:#faf6f2; border-radius:20px; padding:30px; border:1px solid #e3d6ca; text-align:center; margin-top:50px;">
+                <div style="font-size:3.5rem; margin-bottom:15px;">🎉</div>
+                <h3 style="color:#27ae60; font-size:calc(1.2rem + 5pt); margin-bottom:12px;">問卷已成功提交！</h3>
+                <p style="font-size:calc(0.88rem + 5pt); line-height:1.6; color:#555;">
+                    您的答題資料已安全傳送。<br>您可以安心關閉此視窗，再次感謝您的協助與貢獻！
+                </p>
+            </div>
+        </div>
+
     </div>
 </div>
 
 <script>
-    const pages = {
-        page0: document.getElementById('view-page0'),
-        decline: document.getElementById('view-decline'),
-        page1: document.getElementById('view-page1'),
-        page2: document.getElementById('view-page2'),
-        social: document.getElementById('view-social'),
-        line: document.getElementById('view-line'),
-        meter: document.getElementById('view-meter'),
-        s1: document.getElementById('view-s1')
+    // 動態更新使用者手機/裝置當前系統時間
+    function updateClock() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const clockElem = document.getElementById('status-clock');
+        if (clockElem) {
+            clockElem.innerText = `${hours}:${minutes}`;
+        }
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    const bystanderQuestions = [
+        "1. 我會通知其他好友一起按讚認同騷擾者的行為。",
+        "2. 我會透過網路訊息或留言告訴騷擾者，這樣的行為會很好玩、有趣。",
+        "3. 上述情境發生時，我會公開支持騷擾者的行為。",
+        "4. 當我看到上述情境發生時，我會在網頁對被騷擾者留下嘲笑話語。",
+        "5. 上述情境發生時，我會跟隨騷擾者的行為，到被針對者的個人網頁留言洗版。",
+        "6. 我會配合騷擾者，利用訊息、郵件傳送不雅的言語或照片騷擾被針對者。",
+        "7. 上述情境發生時，我會提供或公開被騷擾者的個人隱私給參與者知道。",
+        "8. 上述情境發生時，我願意花時間讓被騷擾者向我訴苦。",
+        "9. 我會替被騷擾者尋求幫助的管道。",
+        "10. 上述情境發生時，我會對他人說明這樣的行為是很不智的。",
+        "11. 當我在網路上發現上述情境時，我會嘗試讓其他人停止對被騷擾者所做的行為。",
+        "12. 我會傳送訊息或留言安慰被騷擾者，表達同情與支持。",
+        "13. 我會鼓勵被騷擾者向家長或老師回報求助。",
+        "14. 若上述情境發生時，我會幫助被騷擾者回應他人的不實的評論。",
+        "15. 即使我發現有類似上述的情境，我仍然會假裝沒看到。",
+        "16. 當看到上述情境發生時，我會選擇忽略它。",
+        "17. 當我看到上述情境時，我應該不會採取任何行動。",
+        "18. 上述情境發生時，我不會表示任何意見。",
+        "19. 上述的情境發生時，我會覺得與我無關而沒有作為。",
+        "20. 當我看到上述的情境發生時，我沒興趣且很快就移到下一個頁面。",
+        "21. 我不會花時間留意上述情況的內容。"
+    ];
+
+    const moodMatrix = [
+        ["暴怒的", "驚慌失措", "備感壓力", "緊張不安", "震驚的", "驚喜的", "振奮的", "歡慶的", "心花怒放", "欣喜若狂"],
+        ["憤怒的", "氣沖沖的", "沮喪的", "神經緊繃", "錯愕的", "亢奮的", "愉悅的", "有動力的", "受到啟發", "興高採烈"],
+        ["火冒三丈", "受到驚嚇", "生氣的", "緊張的", "坐立難安", "精力充沛", "生氣勃勃", "興奮的", "樂觀的", "熱情洋溢"],
+        ["焦慮的", "憂慮不安", "擔心的", "被激怒的", "被惹惱的", "開心的", "集中的", "快樂的", "驕傲的", "興奮激動"],
+        ["反感的", "困擾的", "在意的", "忐忑不安", "不太高興", "令人愉悅", "欣喜的", "有希望的", "好玩的", "幸福的"],
+        ["厭惡的", "死氣沉沉", "失望的", "低落的", "提不起勁", "自在的", "隨和的", "知足的", "充滿愛的", "心滿意足"],
+        ["悲觀的", "鬱鬱寡歡", "洩氣的", "難過的", "無聊的", "平靜的", "安全的", "滿意的", "滿懷感激", "感動的"],
+        ["疏離的", "悲慘的", "孤單的", "灰心的", "疲倦的", "放鬆的", "冷靜的", "寧靜的", "有福氣的", "平衡的"],
+        ["意志消沈", "抑鬱的", "悶悶不樂", "精疲力竭", "疲勞的", "柔和的", "若有所思", "平和的", "舒服的", "無憂無慮"],
+        ["絕望的", "無望的", "孤寂的", "疲憊不堪", "枯竭的", "昏昏欲睡", "安於現狀", "安寧的", "舒適的", "安詳的"]
+    ];
+
+    const storyCaptions = [
+        "💬 深夜昏暗的房間裡，妳躺在床上滑著手機社群...",
+        "💬 演算法推播了小美跳舞的限時動態，妳點進了小美的大頭貼...",
+        "💬 發現小美的主頁，九宮格全是熱舞社排練的照片，個人檔案上也沒有阿傑學長的帳號，猜想兩人應該是分手了...",
+        "💬 往下滑動看到小美最新貼文，看她沒有因為分手而消沈，反而很努力練習，妳幫她按愛心默默支持❤️"
+    ];
+
+    let surveyData = {
+        consent: null,
+        gender: "", school: "", school_other: "", grade: "", experience: "",
+        selectedMoods: [],
+        resp_1: null, resp_2: null, resp_3: null, resp_4: null, resp_5: null,
+        eff_1: null, eff_2: null, eff_3: null, eff_4: null, eff_5: null,
+        bystander: {}
     };
 
-    function showPage(pageId) {
-        Object.values(pages).forEach(page => page.classList.add('hidden'));
-        if (pages[pageId]) pages[pageId].classList.remove('hidden');
-    }
+    let storyIndex = 1;
 
-    document.getElementById('btn-consent-yes').addEventListener('click', () => showPage('page1'));
-    document.getElementById('btn-consent-no').addEventListener('click', () => showPage('decline'));
-    document.getElementById('btn-p1-next').addEventListener('click', () => showPage('page2'));
+    // 每份問卷一個隨機提交編號（用來避免網路重送造成重複資料，不含任何個資）
+    const submissionId = (window.crypto && crypto.randomUUID)
+        ? crypto.randomUUID()
+        : 'id-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+    let startedAt = null;
 
-    function toggleOtherSchool(select) {
-        const input = document.getElementById('demo-school-other');
-        input.classList.toggle('hidden', select.value !== '其他');
-    }
-
-    function setScore(button) {
-        const group = button.parentElement;
-        group.querySelectorAll('.scale-btn').forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-    }
-
-    document.getElementById('btn-unlock-1').addEventListener('click', () => {
-        document.getElementById('comments-1').classList.remove('hidden');
-        const comments = document.querySelectorAll('#comments-1 .comment-item');
-        comments.forEach((item, idx) => {
-            setTimeout(() => item.classList.remove('hidden'), idx * 220);
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        // 生成 21 題旁觀者問卷
+        const bystanderContainer = document.getElementById('bystander-questions-container');
+        bystanderQuestions.forEach((qText, index) => {
+            const qNum = index + 1;
+            const qDiv = document.createElement('div');
+            qDiv.className = 'survey-item';
+            qDiv.innerHTML = `
+                <div class="survey-q">${qText}</div>
+                <div class="scale-options" data-var="bystander_${qNum}">
+                    <button type="button" class="scale-btn" data-v="5" onclick="setBystanderScore(this, ${qNum})">非常符合</button>
+                    <button type="button" class="scale-btn" data-v="4" onclick="setBystanderScore(this, ${qNum})">符合</button>
+                    <button type="button" class="scale-btn" data-v="3" onclick="setBystanderScore(this, ${qNum})">普通</button>
+                    <button type="button" class="scale-btn" data-v="2" onclick="setBystanderScore(this, ${qNum})">不符合</button>
+                    <button type="button" class="scale-btn" data-v="1" onclick="setBystanderScore(this, ${qNum})">非常不符合</button>
+                </div>
+            `;
+            bystanderContainer.appendChild(qDiv);
         });
-        document.getElementById('btn-to-stage2').classList.remove('hidden');
-    });
 
-    document.getElementById('btn-to-stage2').addEventListener('click', () => {
-        document.getElementById('stage-1').classList.add('hidden');
-        document.getElementById('stage-2').classList.remove('hidden');
-    });
+        function triggerNotif(icon, title, msg, onClick) {
+            const banner = document.getElementById('notif-banner');
+            document.getElementById('notif-icon').innerText = icon;
+            document.getElementById('notif-title').innerText = title;
+            document.getElementById('notif-msg').innerText = msg;
+            banner.classList.add('active');
 
-    document.getElementById('btn-unlock-2').addEventListener('click', () => {
-        document.getElementById('comments-2').classList.remove('hidden');
-        const comments = document.querySelectorAll('#comments-2 .comment-item');
-        comments.forEach((item, idx) => {
-            setTimeout(() => item.classList.remove('hidden'), idx * 260);
-        });
-        document.getElementById('btn-trigger-pop').classList.remove('hidden');
-    });
+            banner.onclick = function() {
+                banner.classList.remove('active');
+                if (onClick) onClick();
+            };
+        }
 
-    document.getElementById('btn-trigger-pop').addEventListener('click', () => {
-        document.getElementById('stage-2').classList.add('hidden');
-        document.getElementById('stage-3').classList.remove('hidden');
-    });
+        function showTransition(icon, text, callback) {
+            const screen = document.getElementById('transition-screen');
+            document.getElementById('trans-icon').innerText = icon;
+            document.getElementById('trans-text').innerText = text;
+            screen.classList.remove('hidden');
+            setTimeout(() => {
+                screen.classList.add('hidden');
+                if (callback) callback();
+            }, 2000);
+        }
 
-    document.getElementById('btn-exit-group').addEventListener('click', () => {
-        document.getElementById('stage-3').classList.add('hidden');
-        showPage('line');
-    });
+        // 知情同意按鈕
+        document.getElementById('btn-consent-yes').onclick = function() {
+            surveyData.consent = true;
+            startedAt = Date.now();
+            document.getElementById('view-page0').classList.add('hidden');
+            document.getElementById('view-page1').classList.remove('hidden');
+        };
 
-    document.getElementById('btn-to-meter').addEventListener('click', () => {
-        showPage('meter');
-    });
+        document.getElementById('btn-consent-no').onclick = function() {
+            surveyData.consent = false;
+            document.getElementById('view-page0').classList.add('hidden');
+            document.getElementById('view-decline').classList.remove('hidden');
+        };
 
-    const moodGrid = document.getElementById('mood-grid');
-    const moods = ['憤怒', '焦慮', '難過', '無力', '害怕', '羞恥', '同情', '不安', '憂慮', '困惑', '愉快', '平靜', '驚訝', '疲憊', '緊張', '委屈'];
-    moods.forEach((mood, index) => {
-        const cell = document.createElement('div');
-        cell.className = 'grid-cell';
-        cell.textContent = mood;
-        cell.addEventListener('click', () => {
-            if (cell.classList.contains('selected')) {
-                cell.classList.remove('selected');
-            } else {
-                const selected = moodGrid.querySelectorAll('.selected').length;
-                if (selected >= 5) return;
-                cell.classList.add('selected');
+        // 頁面 1 ➔ 頁面 2 (啟動 4 鏡頭 Story 自動播放)
+        document.getElementById('btn-p1-next').onclick = function() {
+            const gender = document.getElementById('demo-gender').value;
+            const school = document.getElementById('demo-school').value;
+            const grade = document.getElementById('demo-grade').value;
+            const experience = document.getElementById('demo-experience').value;
+
+            if (!gender || !school || !grade || !experience) {
+                alert('請完整填寫所有基本資料欄位喔！');
+                return;
             }
-            const count = moodGrid.querySelectorAll('.selected').length;
-            document.getElementById('selected-count-text').textContent = `已選擇：${count} / 5 個格子`;
-            const btn = document.getElementById('btn-to-s1');
-            btn.style.display = count > 0 ? 'block' : 'none';
+
+            surveyData.gender = gender;
+            surveyData.school = school;
+            surveyData.school_other = document.getElementById('demo-school-other').value;
+            surveyData.grade = grade;
+            surveyData.experience = experience;
+
+            document.getElementById('view-page1').classList.add('hidden');
+            document.getElementById('view-page2').classList.remove('hidden');
+
+            startStoryAutoPlay();
+        };
+
+        // 4 鏡頭自動播放計時器（每個鏡頭時長不同，單位：毫秒）
+        const SCENE_MS = [5500, 6000, 6000, 6500];
+        let storyRaf = null;
+
+        function startStoryAutoPlay() {
+            storyIndex = 1;
+            runScene(storyIndex);
+        }
+
+        function runScene(idx) {
+            cancelAnimationFrame(storyRaf);
+            if (idx > 4) {
+                // 鏡頭四結束：亮起「查看留言區」引導按鈕
+                document.getElementById('btn-p2-next').classList.remove('hidden');
+                return;
+            }
+
+            document.querySelectorAll('.story-scene').forEach(s => s.classList.remove('active'));
+            document.getElementById(`scene-${idx}`).classList.add('active');
+            document.getElementById('story-caption-text').innerText = storyCaptions[idx - 1];
+
+            const fillElem = document.getElementById(`p-fill-${idx}`);
+            const duration = SCENE_MS[idx - 1];
+            const t0 = performance.now();
+            const tick = (now) => {
+                const p = Math.min(1, (now - t0) / duration);
+                fillElem.style.width = (p * 100) + '%';
+                if (p < 1) storyRaf = requestAnimationFrame(tick);
+                else runScene(idx + 1);
+            };
+            storyRaf = requestAnimationFrame(tick);
+        }
+
+        // 留言區：一則一則慢慢跳出，並自動捲動跟隨
+        function revealComments1() {
+            document.getElementById('btn-unlock-1').style.display = 'none';
+            document.getElementById('comments-1').classList.remove('hidden');
+
+            for (let i = 1; i <= 8; i++) {
+                setTimeout(() => {
+                    const comment = document.getElementById(`c1-${i}`);
+                    if (comment) {
+                        comment.classList.remove('hidden');
+                        comment.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+                    if (i === 8) {
+                        const next = document.getElementById('btn-to-stage2');
+                        next.style.display = 'flex';
+                        next.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+                }, i * 800); // 每 0.8 秒彈出一則留言
+            }
+        }
+
+        // 頁面 2 ➔ 頁面 3：點擊後直接展開該篇貼文的留言區
+        document.getElementById('btn-p2-next').onclick = function() {
+            cancelAnimationFrame(storyRaf);
+            document.getElementById('view-page2').classList.add('hidden');
+            document.getElementById('view-social').classList.remove('hidden');
+            revealComments1();
+        };
+
+        // ===== 視窗自動慢慢捲動（受試者一旦自己滑動／觸碰就立刻停止，不跟他搶）=====
+        const scroller = document.getElementById('view-social');
+        let scrollRaf = null, scrollLocked = false;
+        ['wheel', 'touchstart', 'mousedown', 'keydown'].forEach(ev =>
+            scroller.addEventListener(ev, () => { scrollLocked = true; cancelAnimationFrame(scrollRaf); }, { passive: true }));
+
+        function animateScroll(target, ms) {
+            cancelAnimationFrame(scrollRaf);
+            const from = scroller.scrollTop, dist = target - from;
+            if (Math.abs(dist) < 2) return;
+            scroller.style.scrollBehavior = 'auto';
+            const t0 = performance.now();
+            const step = (now) => {
+                if (scrollLocked) { scroller.style.scrollBehavior = ''; return; }
+                const t = Math.min(1, (now - t0) / ms);
+                scroller.scrollTop = from + dist * (0.5 - Math.cos(Math.PI * t) / 2);
+                if (t < 1) scrollRaf = requestAnimationFrame(step);
+                else scroller.style.scrollBehavior = '';
+            };
+            scrollRaf = requestAnimationFrame(step);
+        }
+
+        // 讓某個元素的底部出現在視窗內（速度單位：像素／秒）
+        function autoScrollToEl(el, margin, speed, minMs, maxMs) {
+            const delta = el.getBoundingClientRect().bottom - scroller.getBoundingClientRect().bottom + margin;
+            if (delta <= 2) return;
+            const ms = Math.min(maxMs, Math.max(minMs, delta / speed * 1000));
+            animateScroll(scroller.scrollTop + delta, ms);
+        }
+
+        // 第一幕 ➔ 第二幕
+        document.getElementById('btn-to-stage2').onclick = function() {
+            showTransition('⏰', '隔天中午，上完體育課回到教室的妳，再次打開了 Threads...', function() {
+                document.getElementById('stage-1').classList.add('hidden');
+                document.getElementById('stage-2').classList.remove('hidden');
+
+                // 愛心／留言／轉發數快速跳動（每 0.2 秒更新一次）
+                let likes = 3420, comments = 89, reposts = 1280;
+                clearInterval(window.metricsTimer);
+                window.metricsTimer = setInterval(() => {
+                    likes += Math.floor(Math.random() * 20) + 8;
+                    comments += Math.floor(Math.random() * 3);
+                    reposts += Math.floor(Math.random() * 8) + 3;
+                    document.getElementById('m-likes').innerText = `❤️ ${likes.toLocaleString()}`;
+                    document.getElementById('m-comments').innerText = `💬 ${comments.toLocaleString()} 則留言`;
+                    document.getElementById('m-reposts').innerText = `🔁 ${reposts.toLocaleString()} 次轉發`;
+                }, 200);
+
+                // 畫面先跳到視窗最上方，停一下，再慢慢自動往下滑到「查看同儕…」按鈕
+                scrollLocked = false;
+                scroller.style.scrollBehavior = 'auto';
+                scroller.scrollTop = 0;
+                scroller.style.scrollBehavior = '';
+                setTimeout(() => {
+                    autoScrollToEl(document.getElementById('btn-unlock-2'), 28, 60, 3000, 16000);
+                }, 1800);
+            });
+        };
+
+        // 第二幕：看散布情況
+        document.getElementById('btn-unlock-2').onclick = function() {
+            document.getElementById('comments-2').classList.remove('hidden');
+            this.style.display = 'none';
+
+            // 每則留言浮出後，畫面自動往下跟著看；最後捲到「結束瀏覽，繼續滑手機」按鈕
+            scrollLocked = false;
+            const ids = ['c2-1', 'c2-2', 'c2-3'];
+            ids.forEach((id, i) => {
+                setTimeout(() => {
+                    document.getElementById(id).classList.remove('hidden');
+                    let target = document.getElementById(id);
+                    if (i === ids.length - 1) {
+                        target = document.getElementById('btn-trigger-pop');
+                        target.style.display = 'flex';
+                    }
+                    autoScrollToEl(target, 28, 150, 700, 2500);
+                }, 1000 + i * 1400);
+            });
+        };
+
+        // 第二幕按鈕：觸發推播
+        document.getElementById('btn-trigger-pop').onclick = function() {
+            triggerNotif('🚨', 'Instagram Direct', '妳已被拉入「拆穿小美真面目」群組！點此查看', function() {
+                clearInterval(window.metricsTimer);
+                document.getElementById('stage-2').classList.add('hidden');
+                document.getElementById('stage-3').classList.remove('hidden');
+
+                setTimeout(() => { document.getElementById('chat-m1').classList.remove('hidden'); }, 1000);
+                setTimeout(() => { document.getElementById('chat-m2').classList.remove('hidden'); }, 2200);
+                setTimeout(() => { 
+                    document.getElementById('chat-m3').classList.remove('hidden');
+                    document.getElementById('btn-exit-group').style.display = 'flex';
+                }, 3400);
+            });
+        };
+
+        // 第三幕離開聊天室 ➔ 觸發 LINE 推播
+        document.getElementById('btn-exit-group').onclick = function() {
+            triggerNotif('💬', 'LINE - 好友小宣', '欸妳有看到那個爆料群組嗎？聽說小美...', function() {
+                document.getElementById('view-social').classList.add('hidden');
+                document.getElementById('view-line').classList.remove('hidden');
+            });
+        };
+
+        // LINE 視窗 ➔ 10x10 情緒網格
+        document.getElementById('btn-to-meter').onclick = function() {
+            document.getElementById('view-line').classList.add('hidden');
+            document.getElementById('view-meter').classList.remove('hidden');
+        };
+
+        // 生成 10x10 情緒網格
+        const gridContainer = document.getElementById('mood-grid');
+        for (let row = 0; row < 10; row++) {
+            const y = 10 - row;
+            for (let col = 0; col < 10; col++) {
+                const x = col + 1;
+                const word = moodMatrix[row][col];
+
+                const cell = document.createElement('div');
+                cell.className = 'grid-cell';
+                cell.innerText = word;
+
+                if (x <= 5 && y > 5) cell.classList.add('quad-red');
+                else if (x > 5 && y > 5) cell.classList.add('quad-yellow');
+                else if (x <= 5 && y <= 5) cell.classList.add('quad-blue');
+                else cell.classList.add('quad-green');
+
+                cell.onclick = function() {
+                    const coordKey = `${word}(X:${x},Y:${y})`;
+                    const index = surveyData.selectedMoods.indexOf(coordKey);
+
+                    if (index > -1) {
+                        surveyData.selectedMoods.splice(index, 1);
+                        this.classList.remove('selected');
+                    } else {
+                        if (surveyData.selectedMoods.length >= 5) {
+                            alert('至多點選 5 個格子喔！');
+                            return;
+                        }
+                        surveyData.selectedMoods.push(coordKey);
+                        this.classList.add('selected');
+                    }
+
+                    document.getElementById('selected-count-text').innerText = `已選擇：${surveyData.selectedMoods.length} / 5 個格子`;
+
+                    if (surveyData.selectedMoods.length > 0) {
+                        document.getElementById('btn-to-s1').style.display = 'flex';
+                    } else {
+                        document.getElementById('btn-to-s1').style.display = 'none';
+                    }
+                };
+                gridContainer.appendChild(cell);
+            }
+        }
+
+        // 頁面 5 ➔ 頁面 6-1
+        document.getElementById('btn-to-s1').onclick = function() {
+            document.getElementById('view-meter').classList.add('hidden');
+            document.getElementById('view-s1').classList.remove('hidden');
+        };
+
+        // 頁面 6-1 ➔ 頁面 6-2
+        document.getElementById('btn-s1-next').onclick = function() {
+            if (!surveyData.resp_1 || !surveyData.resp_2 || !surveyData.resp_3 || !surveyData.resp_4 || !surveyData.resp_5) {
+                alert('請完整填寫本組的所有 5 道題目喔！');
+                return;
+            }
+            document.getElementById('view-s1').classList.add('hidden');
+            document.getElementById('view-s2').classList.remove('hidden');
+        };
+
+        // 頁面 6-2 ➔ 頁面 6-3
+        document.getElementById('btn-s2-next').onclick = function() {
+            if (!surveyData.eff_1 || !surveyData.eff_2 || !surveyData.eff_3 || !surveyData.eff_4 || !surveyData.eff_5) {
+                alert('請完整填寫本組的所有 5 道題目喔！');
+                return;
+            }
+            document.getElementById('view-s2').classList.add('hidden');
+            document.getElementById('view-s3').classList.remove('hidden');
+        };
+
+        // 頁面 6-3 ➔ 頁面 7
+        document.getElementById('btn-finish-all').onclick = function() {
+            const bystanderCount = Object.keys(surveyData.bystander).length;
+            if (bystanderCount < 21) {
+                alert(`您還有題目未完成喔！（目前已填寫 ${bystanderCount} / 21 題）`);
+                return;
+            }
+
+            document.getElementById('view-s3').classList.add('hidden');
+            document.getElementById('view-finish').classList.remove('hidden');
+        };
+
+        // 手機框只在「前情提要／情境故事畫面」出現；其餘頁面為白底一般版面
+        const FRAME_VIEWS = ['view-page2', 'view-social', 'view-line'];
+        const deviceWrapper = document.querySelector('.device-wrapper');
+        function syncFrame() {
+            const on = FRAME_VIEWS.some(id => !document.getElementById(id).classList.contains('hidden'));
+            deviceWrapper.classList.toggle('phone-mode', on);
+        }
+        const viewObserver = new MutationObserver(records => {
+            syncFrame();
+            // 切換到新頁面時回到頁首（避免停在上一頁的捲動位置）
+            const shown = records.some(r => !r.target.classList.contains('hidden') && (r.oldValue || '').includes('hidden'));
+            if (shown) window.scrollTo(0, 0);
         });
-        moodGrid.appendChild(cell);
+        document.querySelectorAll('[id^="view-"]').forEach(el =>
+            viewObserver.observe(el, { attributes: true, attributeFilter: ['class'], attributeOldValue: true }));
+        syncFrame();
+
+        // 最終提交按鈕：上傳到 Google Sheet（透過 Apps Script）
+        document.getElementById('btn-submit-final').onclick = submitSurvey;
+
     });
 
-    document.getElementById('btn-to-s1').addEventListener('click', () => showPage('s1'));
+    // ===== 上傳到 Google Sheet =====
+    let isSubmitting = false;
+
+    function showSubmitError(msg) {
+        const box = document.getElementById('submit-error');
+        box.innerText = msg;
+        box.classList.remove('hidden');
+    }
+
+    async function submitSurvey() {
+        if (isSubmitting) return;
+
+        const btn = document.getElementById('btn-submit-final');
+        const url = (window.SURVEY_CONFIG && window.SURVEY_CONFIG.APPS_SCRIPT_URL) || '';
+        document.getElementById('submit-error').classList.add('hidden');
+
+        if (!url || url.indexOf('PASTE_YOUR') !== -1) {
+            showSubmitError('⚠️ 尚未設定上傳網址（請研究者先在 config.js 填入 Apps Script 網址）。');
+            return;
+        }
+
+        const payload = {
+            action: 'submit',
+            submissionId: submissionId,
+            durationSec: startedAt ? Math.round((Date.now() - startedAt) / 1000) : null,
+            data: surveyData
+        };
+
+        isSubmitting = true;
+        const originalLabel = btn.innerHTML;
+        btn.disabled = true;
+        btn.style.opacity = '0.6';
+        btn.innerText = '⏳ 傳送中，請勿關閉視窗…';
+
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 30000);
+
+        try {
+            // 使用 text/plain 可避免瀏覽器的 CORS 預檢請求（Apps Script 不支援 OPTIONS）
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload),
+                signal: controller.signal
+            });
+            const result = await res.json();
+            if (!result.ok) throw new Error(result.error || 'server error');
+
+            document.getElementById('view-finish').classList.add('hidden');
+            document.getElementById('view-submitted').classList.remove('hidden');
+        } catch (err) {
+            console.error('上傳失敗：', err);
+            showSubmitError('❌ 上傳失敗，請確認網路連線後再按一次「提交」。您的作答內容仍保留在此頁面，請不要重新整理或關閉視窗。');
+            btn.disabled = false;
+            btn.style.opacity = '';
+            btn.innerHTML = originalLabel;
+        } finally {
+            clearTimeout(timer);
+            isSubmitting = false;
+        }
+    }
+
+    function toggleOtherSchool(selectObj) {
+        const otherInput = document.getElementById('demo-school-other');
+        if (selectObj.value === '其他') {
+            otherInput.classList.remove('hidden');
+        } else {
+            otherInput.classList.add('hidden');
+        }
+    }
+
+    // 圖片載入失敗時：先試備援圖片，仍失敗就隱藏（露出底下的色塊）
+    function imgFallback(img) {
+        const fb = img.dataset.fb;
+        if (fb && !img.dataset.tried) { img.dataset.tried = '1'; img.src = fb; }
+        else { img.style.display = 'none'; }
+    }
+
+    function setScore(btn) {
+        const parent = btn.parentElement;
+        const varName = parent.getAttribute('data-var');
+        parent.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const score = btn.dataset.v;
+        surveyData[varName] = parseInt(score);
+    }
+
+    function setBystanderScore(btn, qNum) {
+        const parent = btn.parentElement;
+        parent.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const score = btn.dataset.v;
+        surveyData.bystander[`Q${qNum}`] = parseInt(score);
+    }
 </script>
+
 </body>
 </html>

@@ -451,7 +451,7 @@
             .s3-bio { padding: 6px 16px; }
             .s4-media { aspect-ratio: 1 / 0.58; }
         }
-        /* ===== 頁籤式情緒選單樣式 ===== */
+/* ===== 頁籤式情緒選單樣式 (5x5 矩陣對應版) ===== */
         .mood-tab-container { width: 100%; max-width: 520px; margin: 12px 0; }
         .mood-tabs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-bottom: 12px; }
         .mood-tab-btn {
@@ -464,22 +464,23 @@
         .mood-tab-btn.active.tab-yellow { background: #f2994a; color: #fff; border-color: #f2994a; box-shadow: 0 2px 8px rgba(242,153,74,0.3); }
         .mood-tab-btn.active.tab-green { background: #27ae60; color: #fff; border-color: #27ae60; box-shadow: 0 2px 8px rgba(39,174,96,0.3); }
 
+        /* 5 欄排列，保持 5x5 的矩陣對應關係 */
         .mood-chips-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; width: 100%;
-            background: #faf6f2; padding: 12px; border-radius: 14px; border: 1px solid #e3d6ca; min-height: 280px; align-content: start;
+            display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; width: 100%;
+            background: #faf6f2; padding: 10px 6px; border-radius: 14px; border: 1px solid #e3d6ca; box-sizing: border-box;
         }
         .mood-chip {
-            padding: 12px 8px; border-radius: 10px; background: #ffffff; border: 1px solid #d6c9bd;
-            color: #222; font-size: calc(0.88rem + 3pt); font-weight: 600; text-align: center; cursor: pointer;
-            user-select: none; transition: all 0.15s ease; box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-            display: flex; align-items: center; justify-content: center;
+            padding: 12px 2px; border-radius: 8px; background: #ffffff; border: 1px solid #d6c9bd;
+            color: #222; font-size: calc(0.72rem + 3pt); font-weight: 600; text-align: center; cursor: pointer;
+            user-select: none; transition: all 0.15s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+            display: flex; align-items: center; justify-content: center; line-height: 1.25; word-break: break-all;
         }
-        .mood-chip:active { transform: scale(0.96); }
+        .mood-chip:active { transform: scale(0.95); }
         .mood-chip.selected { background: #0095f6 !important; color: #ffffff !important; border-color: #0095f6 !important; font-weight: 700; box-shadow: 0 2px 6px rgba(0,149,246,0.35); }
 
         .selected-summary-box {
             width: 100%; max-width: 520px; background: #f6f1ec; border: 1px dashed #8a5a3c; border-radius: 12px;
-            padding: 10px 12px; margin: 10px 0; font-size: calc(0.82rem + 3pt); color: #333;
+            padding: 10px 12px; margin: 10px 0; font-size: calc(0.82rem + 3pt); color: #333; box-sizing: border-box;
         }
         .selected-tags-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
         .selected-tag-item {
@@ -970,7 +971,7 @@
             </div>
         </div>
 
-<!-- 頁面 5: 分頁頁籤情緒選單 -->
+<!-- 頁面 5: 分頁頁籤情緒選單 (5x5 對應版) -->
         <div class="main-content hidden" id="view-meter" style="display:flex; flex-direction:column; align-items:center;">
             <h3 style="color:#5a3825; font-size:calc(0.95rem + 3pt); margin-top:10px; text-align:center; line-height:1.4;">
                 目睹剛才情境後，請點選您當下的情緒感受<br>
@@ -986,7 +987,7 @@
                     <button type="button" class="mood-tab-btn tab-green" id="tab-btn-green" onclick="switchMoodTab('green')">🟢 平靜放鬆</button>
                 </div>
 
-                <!-- 詞彙大標籤按鈕區塊 -->
+                <!-- 5x5 詞彙按鈕對應區 -->
                 <div class="mood-chips-grid" id="mood-chips-grid"></div>
             </div>
 
@@ -1559,35 +1560,31 @@
             document.getElementById('view-meter').classList.remove('hidden');
         };
 
-// ===== 4 大類別情緒分頁邏輯 =====
+// ===== 4 大類別情緒分頁邏輯 (精準對應 5x5 座標與行列) =====
     let currentTabCategory = 'red';
 
-    // 自動依 10x10 座標將情緒詞彙歸類至四大類別，保留原始 (X, Y) 數據
+    // 根據頁籤，依據原始 10x10 矩陣的位置範圍擷取 5x5 子區域
     function getMoodsByCategory(categoryKey) {
         const list = [];
-        for (let row = 0; row < 10; row++) {
-            const y = 10 - row;
-            for (let col = 0; col < 10; col++) {
-                const x = col + 1;
-                const word = moodMatrix[row][col];
-                const key = `${word}(X:${x},Y:${y})`;
+        let rowStart = 0, rowEnd = 4, colStart = 0, colEnd = 4;
 
-                // 赤色：焦慮憤怒 (X<=5, Y>5)
-                if (categoryKey === 'red' && x <= 5 && y > 5) {
-                    list.push({ word, key });
-                }
-                // 藍色：沮喪低落 (X<=5, Y<=5)
-                else if (categoryKey === 'blue' && x <= 5 && y <= 5) {
-                    list.push({ word, key });
-                }
-                // 黃色：興奮開心 (X>5, Y>5)
-                else if (categoryKey === 'yellow' && x > 5 && y > 5) {
-                    list.push({ word, key });
-                }
-                // 綠色：平靜放鬆 (X>5, Y<=5)
-                else if (categoryKey === 'green' && x > 5 && y <= 5) {
-                    list.push({ word, key });
-                }
+        if (categoryKey === 'red') {        // 焦慮憤怒 (左上: X:1~5, Y:6~10)
+            rowStart = 0; rowEnd = 4; colStart = 0; colEnd = 4;
+        } else if (categoryKey === 'yellow') { // 興奮開心 (右上: X:6~10, Y:6~10)
+            rowStart = 0; rowEnd = 4; colStart = 5; colEnd = 9;
+        } else if (categoryKey === 'blue') {   // 沮喪低落 (左下: X:1~5, Y:1~5)
+            rowStart = 5; rowEnd = 9; colStart = 0; colEnd = 4;
+        } else if (categoryKey === 'green') {  // 平靜放鬆 (右下: X:6~10, Y:1~5)
+            rowStart = 5; rowEnd = 9; colStart = 5; colEnd = 9;
+        }
+
+        for (let r = rowStart; r <= rowEnd; r++) {
+            const y = 10 - r;
+            for (let c = colStart; c <= colEnd; c++) {
+                const x = c + 1;
+                const word = moodMatrix[r][c];
+                const key = `${word}(X:${x},Y:${y})`;
+                list.push({ word, key, x, y });
             }
         }
         return list;
@@ -1607,7 +1604,7 @@
         renderMoodChips();
     }
 
-    // 渲染當前頁籤的情緒詞彙按鈕
+    // 渲染 5x5 按鈕
     function renderMoodChips() {
         const grid = document.getElementById('mood-chips-grid');
         if (!grid) return;
@@ -1629,7 +1626,7 @@
         });
     }
 
-    // 點選/取消點選情緒處理
+    // 點選/取消點選情緒
     function toggleMoodSelection(key) {
         const index = surveyData.selectedMoods.indexOf(key);
         if (index > -1) {
@@ -1644,9 +1641,9 @@
         updateSelectedMoodUI();
     }
 
-    // 更新選取摘要與介面狀態
+    // 更新介面與已選取清單
     function updateSelectedMoodUI() {
-        renderMoodChips(); // 重新整理當前頁籤顯示狀態
+        renderMoodChips();
 
         const countText = document.getElementById('selected-count-text');
         const tagsContainer = document.getElementById('selected-tags-list');
@@ -1670,7 +1667,7 @@
         }
     }
 
-    // 頁面初始化載入預設頁籤
+    // 頁面初始化載入
     document.addEventListener('DOMContentLoaded', function() {
         renderMoodChips();
     });

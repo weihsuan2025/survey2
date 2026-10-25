@@ -1299,14 +1299,119 @@
 
     let storyIndex = 1;
 
-    // 每份問卷一個隨機提交編號（用來避免網路重送造成重複資料，不含任何個資）
+    // 每份問卷一個隨機提交編號
     const submissionId = (window.crypto && crypto.randomUUID)
         ? crypto.randomUUID()
         : 'id-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
     let startedAt = null;
 
+    // ===== 全域 4 大類別情緒分頁邏輯 (供 HTML onclick 存取) =====
+    let currentTabCategory = 'red';
+
+    function getMoodsByCategory(categoryKey) {
+        const list = [];
+        let rowStart = 0, rowEnd = 4, colStart = 0, colEnd = 4;
+
+        if (categoryKey === 'red') {        // 焦慮憤怒 (左上: X:1~5, Y:6~10)
+            rowStart = 0; rowEnd = 4; colStart = 0; colEnd = 4;
+        } else if (categoryKey === 'yellow') { // 興奮開心 (右上: X:6~10, Y:6~10)
+            rowStart = 0; rowEnd = 4; colStart = 5; colEnd = 9;
+        } else if (categoryKey === 'blue') {   // 沮喪低落 (左下: X:1~5, Y:1~5)
+            rowStart = 5; rowEnd = 9; colStart = 0; colEnd = 4;
+        } else if (categoryKey === 'green') {  // 平靜放鬆 (右下: X:6~10, Y:1~5)
+            rowStart = 5; rowEnd = 9; colStart = 5; colEnd = 9;
+        }
+
+        for (let r = rowStart; r <= rowEnd; r++) {
+            const y = 10 - r;
+            for (let c = colStart; c <= colEnd; c++) {
+                const x = c + 1;
+                const word = moodMatrix[r][c];
+                const key = `${word}(X:${x},Y:${y})`;
+                list.push({ word, key, x, y });
+            }
+        }
+        return list;
+    }
+
+    function switchMoodTab(tabKey) {
+        currentTabCategory = tabKey;
+        const keys = ['red', 'blue', 'yellow', 'green'];
+        keys.forEach(k => {
+            const btn = document.getElementById(`tab-btn-${k}`);
+            if (btn) {
+                if (k === tabKey) btn.classList.add('active');
+                else btn.classList.remove('active');
+            }
+        });
+        renderMoodChips();
+    }
+
+    function renderMoodChips() {
+        const grid = document.getElementById('mood-chips-grid');
+        if (!grid) return;
+        grid.innerHTML = '';
+
+        const moodItems = getMoodsByCategory(currentTabCategory);
+        moodItems.forEach(item => {
+            const chip = document.createElement('div');
+            chip.className = 'mood-chip';
+            if (surveyData.selectedMoods.includes(item.key)) {
+                chip.classList.add('selected');
+            }
+            chip.innerText = item.word;
+
+            chip.onclick = function() {
+                toggleMoodSelection(item.key);
+            };
+            grid.appendChild(chip);
+        });
+    }
+
+    function toggleMoodSelection(key) {
+        const index = surveyData.selectedMoods.indexOf(key);
+        if (index > -1) {
+            surveyData.selectedMoods.splice(index, 1);
+        } else {
+            if (surveyData.selectedMoods.length >= 5) {
+                alert('至多點選 5 個情緒詞彙喔！');
+                return;
+            }
+            surveyData.selectedMoods.push(key);
+        }
+        updateSelectedMoodUI();
+    }
+
+    function updateSelectedMoodUI() {
+        renderMoodChips();
+
+        const countText = document.getElementById('selected-count-text');
+        const tagsContainer = document.getElementById('selected-tags-list');
+        const nextBtn = document.getElementById('btn-to-s1');
+
+        if (countText) countText.innerText = `📌 已選擇：${surveyData.selectedMoods.length} / 5 個情緒詞彙`;
+
+        if (tagsContainer) {
+            tagsContainer.innerHTML = '';
+            surveyData.selectedMoods.forEach(key => {
+                const wordOnly = key.split('(')[0];
+                const tag = document.createElement('div');
+                tag.className = 'selected-tag-item';
+                tag.innerHTML = `${wordOnly} <span onclick="toggleMoodSelection('${key}')">✕</span>`;
+                tagsContainer.appendChild(tag);
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.style.display = surveyData.selectedMoods.length > 0 ? 'flex' : 'none';
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         
+        // 渲染預設頁籤按鈕
+        renderMoodChips();
+
         // 生成 21 題旁觀者問卷
         const bystanderContainer = document.getElementById('bystander-questions-container');
         bystanderQuestions.forEach((qText, index) => {
@@ -1388,7 +1493,7 @@
             startStoryAutoPlay();
         };
 
-        // 4 鏡頭自動播放計時器（每個鏡頭時長不同，單位：毫秒）
+        // 4 鏡頭自動播放計時器
         const SCENE_MS = [5500, 6000, 6000, 6500];
         let storyRaf = null;
 
@@ -1400,7 +1505,6 @@
         function runScene(idx) {
             cancelAnimationFrame(storyRaf);
             if (idx > 4) {
-                // 鏡頭四結束：亮起「查看留言區」引導按鈕
                 document.getElementById('btn-p2-next').classList.remove('hidden');
                 return;
             }
@@ -1421,7 +1525,7 @@
             storyRaf = requestAnimationFrame(tick);
         }
 
-        // 留言區：一則一則慢慢跳出，並自動捲動跟隨
+        // 留言區：一則一則慢慢跳出
         function revealComments1() {
             document.getElementById('btn-unlock-1').style.display = 'none';
             document.getElementById('comments-1').classList.remove('hidden');
@@ -1438,11 +1542,11 @@
                         next.style.display = 'flex';
                         next.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     }
-                }, i * 800); // 每 0.8 秒彈出一則留言
+                }, i * 800);
             }
         }
 
-        // 頁面 2 ➔ 頁面 3：點擊後直接展開該篇貼文的留言區
+        // 頁面 2 ➔ 頁面 3
         document.getElementById('btn-p2-next').onclick = function() {
             cancelAnimationFrame(storyRaf);
             document.getElementById('view-page2').classList.add('hidden');
@@ -1450,7 +1554,6 @@
             revealComments1();
         };
 
-        // ===== 視窗自動慢慢捲動（受試者一旦自己滑動／觸碰就立刻停止，不跟他搶）=====
         const scroller = document.getElementById('view-social');
         let scrollRaf = null, scrollLocked = false;
         ['wheel', 'touchstart', 'mousedown', 'keydown'].forEach(ev =>
@@ -1472,7 +1575,6 @@
             scrollRaf = requestAnimationFrame(step);
         }
 
-        // 讓某個元素的底部出現在視窗內（速度單位：像素／秒）
         function autoScrollToEl(el, margin, speed, minMs, maxMs) {
             const delta = el.getBoundingClientRect().bottom - scroller.getBoundingClientRect().bottom + margin;
             if (delta <= 2) return;
@@ -1486,7 +1588,6 @@
                 document.getElementById('stage-1').classList.add('hidden');
                 document.getElementById('stage-2').classList.remove('hidden');
 
-                // 愛心／留言／轉發數快速跳動（每 0.2 秒更新一次）
                 let likes = 3420, comments = 89, reposts = 1280;
                 clearInterval(window.metricsTimer);
                 window.metricsTimer = setInterval(() => {
@@ -1498,7 +1599,6 @@
                     document.getElementById('m-reposts').innerText = `🔁 ${reposts.toLocaleString()} 次轉發`;
                 }, 200);
 
-                // 畫面先跳到視窗最上方，停一下，再慢慢自動往下滑到「查看同儕…」按鈕
                 scrollLocked = false;
                 scroller.style.scrollBehavior = 'auto';
                 scroller.scrollTop = 0;
@@ -1514,7 +1614,6 @@
             document.getElementById('comments-2').classList.remove('hidden');
             this.style.display = 'none';
 
-            // 每則留言浮出後，畫面自動往下跟著看；最後捲到「結束瀏覽，繼續滑手機」按鈕
             scrollLocked = false;
             const ids = ['c2-1', 'c2-2'];
             ids.forEach((id, i) => {
@@ -1560,118 +1659,6 @@
             document.getElementById('view-meter').classList.remove('hidden');
         };
 
-// ===== 4 大類別情緒分頁邏輯 (精準對應 5x5 座標與行列) =====
-    let currentTabCategory = 'red';
-
-    // 根據頁籤，依據原始 10x10 矩陣的位置範圍擷取 5x5 子區域
-    function getMoodsByCategory(categoryKey) {
-        const list = [];
-        let rowStart = 0, rowEnd = 4, colStart = 0, colEnd = 4;
-
-        if (categoryKey === 'red') {        // 焦慮憤怒 (左上: X:1~5, Y:6~10)
-            rowStart = 0; rowEnd = 4; colStart = 0; colEnd = 4;
-        } else if (categoryKey === 'yellow') { // 興奮開心 (右上: X:6~10, Y:6~10)
-            rowStart = 0; rowEnd = 4; colStart = 5; colEnd = 9;
-        } else if (categoryKey === 'blue') {   // 沮喪低落 (左下: X:1~5, Y:1~5)
-            rowStart = 5; rowEnd = 9; colStart = 0; colEnd = 4;
-        } else if (categoryKey === 'green') {  // 平靜放鬆 (右下: X:6~10, Y:1~5)
-            rowStart = 5; rowEnd = 9; colStart = 5; colEnd = 9;
-        }
-
-        for (let r = rowStart; r <= rowEnd; r++) {
-            const y = 10 - r;
-            for (let c = colStart; c <= colEnd; c++) {
-                const x = c + 1;
-                const word = moodMatrix[r][c];
-                const key = `${word}(X:${x},Y:${y})`;
-                list.push({ word, key, x, y });
-            }
-        }
-        return list;
-    }
-
-    // 切換分頁頁籤
-    function switchMoodTab(tabKey) {
-        currentTabCategory = tabKey;
-        const keys = ['red', 'blue', 'yellow', 'green'];
-        keys.forEach(k => {
-            const btn = document.getElementById(`tab-btn-${k}`);
-            if (btn) {
-                if (k === tabKey) btn.classList.add('active');
-                else btn.classList.remove('active');
-            }
-        });
-        renderMoodChips();
-    }
-
-    // 渲染 5x5 按鈕
-    function renderMoodChips() {
-        const grid = document.getElementById('mood-chips-grid');
-        if (!grid) return;
-        grid.innerHTML = '';
-
-        const moodItems = getMoodsByCategory(currentTabCategory);
-        moodItems.forEach(item => {
-            const chip = document.createElement('div');
-            chip.className = 'mood-chip';
-            if (surveyData.selectedMoods.includes(item.key)) {
-                chip.classList.add('selected');
-            }
-            chip.innerText = item.word;
-
-            chip.onclick = function() {
-                toggleMoodSelection(item.key);
-            };
-            grid.appendChild(chip);
-        });
-    }
-
-    // 點選/取消點選情緒
-    function toggleMoodSelection(key) {
-        const index = surveyData.selectedMoods.indexOf(key);
-        if (index > -1) {
-            surveyData.selectedMoods.splice(index, 1);
-        } else {
-            if (surveyData.selectedMoods.length >= 5) {
-                alert('至多點選 5 個情緒詞彙喔！');
-                return;
-            }
-            surveyData.selectedMoods.push(key);
-        }
-        updateSelectedMoodUI();
-    }
-
-    // 更新介面與已選取清單
-    function updateSelectedMoodUI() {
-        renderMoodChips();
-
-        const countText = document.getElementById('selected-count-text');
-        const tagsContainer = document.getElementById('selected-tags-list');
-        const nextBtn = document.getElementById('btn-to-s1');
-
-        if (countText) countText.innerText = `📌 已選擇：${surveyData.selectedMoods.length} / 5 個情緒詞彙`;
-
-        if (tagsContainer) {
-            tagsContainer.innerHTML = '';
-            surveyData.selectedMoods.forEach(key => {
-                const wordOnly = key.split('(')[0];
-                const tag = document.createElement('div');
-                tag.className = 'selected-tag-item';
-                tag.innerHTML = `${wordOnly} <span onclick="toggleMoodSelection('${key}')">✕</span>`;
-                tagsContainer.appendChild(tag);
-            });
-        }
-
-        if (nextBtn) {
-            nextBtn.style.display = surveyData.selectedMoods.length > 0 ? 'flex' : 'none';
-        }
-    }
-
-    // 頁面初始化載入
-    document.addEventListener('DOMContentLoaded', function() {
-        renderMoodChips();
-    });
-
         // 頁面 5 ➔ 頁面 6-1
         document.getElementById('btn-to-s1').onclick = function() {
             document.getElementById('view-meter').classList.add('hidden');
@@ -1710,7 +1697,7 @@
             document.getElementById('view-finish').classList.remove('hidden');
         };
 
-        // 手機框只在「前情提要／情境故事畫面」出現；其餘頁面為白底一般版面
+        // 手機框切換邏輯
         const FRAME_VIEWS = ['view-page2', 'view-social', 'view-line'];
         const deviceWrapper = document.querySelector('.device-wrapper');
         function syncFrame() {
@@ -1719,7 +1706,6 @@
         }
         const viewObserver = new MutationObserver(records => {
             syncFrame();
-            // 切換到新頁面時回到頁首（避免停在上一頁的捲動位置）
             const shown = records.some(r => !r.target.classList.contains('hidden') && (r.oldValue || '').includes('hidden'));
             if (shown) window.scrollTo(0, 0);
         });
@@ -1727,7 +1713,7 @@
             viewObserver.observe(el, { attributes: true, attributeFilter: ['class'], attributeOldValue: true }));
         syncFrame();
 
-        // 最終提交按鈕：上傳到 Google Sheet（透過 Apps Script）
+        // 最終提交按鈕
         document.getElementById('btn-submit-final').onclick = submitSurvey;
 
     });
@@ -1770,7 +1756,6 @@
         const timer = setTimeout(() => controller.abort(), 30000);
 
         try {
-            // 使用 text/plain 可避免瀏覽器的 CORS 預檢請求（Apps Script 不支援 OPTIONS）
             const res = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -1803,7 +1788,6 @@
         }
     }
 
-    // 圖片載入失敗時：先試備援圖片，仍失敗就隱藏（露出底下的色塊）
     function imgFallback(img) {
         const fb = img.dataset.fb;
         if (fb && !img.dataset.tried) { img.dataset.tried = '1'; img.src = fb; }

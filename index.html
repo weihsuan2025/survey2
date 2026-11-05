@@ -1253,7 +1253,7 @@
         { id: "Q10", text: "10. 上述情境發生時，我會對他人說明這樣的行為是很不智的。" },
         { id: "Q11", text: "11. 當我在網路上發現上述情境時，我會嘗試讓其他人停止對被騷擾者所做的行為。" },
         
-        // 插入專注檢核題 (要求選擇「不符合」，對應 data-v="3")
+            // 插入專注檢核題 (要求選擇「普通」，對應 data-v="3")
         { id: "ATTN_1", text: "12. 本題請直接點選「普通」。", isAttn: true, targetVal: 3 },
 
         { id: "Q12", text: "13. 我會傳送訊息或留言安慰被騷擾者，表達同情與支持。" },
@@ -1675,11 +1675,15 @@
         // 檢查包含 21 題本題 + 1 題檢核題（共 22 題）
         document.getElementById('btn-finish-all').onclick = function() {
             const bystanderCount = Object.keys(surveyData.bystander).length;
-            if (bystanderCount < bystanderQuestions.length) {
-                alert(`您還有題目未完成喔！（目前已填寫 ${bystanderCount} / ${bystanderQuestions.length} 題）`);
+            const isAttnAnswered = (surveyData.attn_pass !== null);
+        
+            // 檢查 21 題量表與 1 題檢核題是否都有填
+            if (bystanderCount < 21 || !isAttnAnswered) {
+                const totalDone = bystanderCount + (isAttnAnswered ? 1 : 0);
+                alert(`您還有題目未完成喔！（目前已填寫 ${totalDone} / 22 題）`);
                 return;
             }
-
+        
             document.getElementById('view-s3').classList.add('hidden');
             document.getElementById('view-finish').classList.remove('hidden');
         };
@@ -1786,20 +1790,20 @@
         surveyData[varName] = parseInt(score);
     }
 
-    // 旁觀者量表計分（含專注檢核題邏輯）
-    function setBystanderScore(btn, qId, isAttn = false, targetVal = 0) {
-        const parent = btn.parentElement;
-        parent.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const score = parseInt(btn.dataset.v);
-        surveyData.bystander[qId] = score;
+// 修改後的旁觀者量表計分（含專注檢核題邏輯）
+function setBystanderScore(btn, qId, isAttn = false, targetVal = 0) {
+    const parent = btn.parentElement;
+    parent.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const score = parseInt(btn.dataset.v);
 
-        // 若為專注檢核題，自動標記是否有通過檢核
-        if (isAttn) {
-            surveyData.attn_pass = (score === targetVal);
-        }
+    // 關鍵修改：如果是檢核題，獨立紀錄；如果是正式題目，才存入 bystander
+    if (isAttn) {
+        surveyData.attn_pass = (score === targetVal);
+    } else {
+        surveyData.bystander[qId] = score;
     }
-</script>
+}
 
 </body>
 </html>
